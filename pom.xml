@@ -177,7 +177,7 @@
 
                             <jsEngine>CLOSURE</jsEngine>
                             <skipMerge>false</skipMerge>
-                            <skipMinify>false</skipMinify>
+                            <skipMinify>true</skipMinify>
                             <sourceMapType>STANDARD</sourceMapType>
                         </configuration>
                         <goals>
