@@ -168,7 +168,7 @@
                             </cssSourceFiles>
                             <cssFinalFile>styles.min.css</cssFinalFile>
 
-                            <jsSourceDir>static/js</jsSourceDir>
+                            <jsSourceDir>src/main/resources/static/js</jsSourceDir>
                             <jsSourceFiles>
                                 <jsSourceFile>main.js</jsSourceFile>
                                 <!-- 他のJSファイルがある場合はここに追加 -->
