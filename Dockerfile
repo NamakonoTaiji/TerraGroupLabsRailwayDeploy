@@ -45,4 +45,4 @@ COPY --from=builder /app/target/terragrouplabslandingpagefixed-0.0.1-SNAPSHOT.wa
 
 # アプリケーションの起動コマンド
 # Spring Bootの実行可能WARとして起動
-ENTRYPOINT ["java", "-jar", "app.war"]
+ENTRYPOINT ["java", "-Dspring.profiles.active=prod", "-jar", "app.war"]
