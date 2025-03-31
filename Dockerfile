@@ -46,5 +46,4 @@ COPY --from=builder /app/target/terragrouplabslandingpagefixed-0.0.1-SNAPSHOT.wa
 
 # アプリケーションの起動コマンド
 # Spring Bootの実行可能WARとして起動
-# ENTRYPOINT ["java", "-jar", "app.war"]  # この行をコメントアウトまたは削除
-CMD java $JAVA_OPTS -jar app.war       # この行に変更
+ENTRYPOINT ["java", "-jar", "app.war"]
