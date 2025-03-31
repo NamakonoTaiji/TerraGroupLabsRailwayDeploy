@@ -160,6 +160,10 @@
                         <id>default-minify</id>
                         <phase>prepare-package</phase>
                         <configuration>
+
+                            <!-- プラグインを実行しない一時的な解決策 -->
+                            <skip>true</skip>
+
                             <charset>UTF-8</charset>
                             <cssSourceDir>static/css</cssSourceDir>
                             <cssSourceFiles>
