@@ -22,7 +22,9 @@ COPY src ./src
 
 # アプリケーションをビルド (WARファイルを作成)
 # ここで minify プラグインをスキップし、テストもスキップします
-RUN ./mvnw package -DskipTests -DskipMinify=true
+# アプリケーションをビルド (WARファイルを作成)
+# メモリ使用量を制限 (-Xmx256m は256MBを指定。環境に応じて調整)
+RUN MAVEN_OPTS="-Xmx256m" ./mvnw package -DskipTests -DskipMinify=true
 
 #-------------------
 # Runtime Stage
