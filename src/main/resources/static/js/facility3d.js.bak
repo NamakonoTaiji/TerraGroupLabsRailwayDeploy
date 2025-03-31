@@ -1,0 +1,565 @@
+// facility3d.js - TerraGroup Labs 研究施設3Dモデル
+
+// グローバル変数
+let scene, camera, renderer, controls;
+let mixer, clock;
+let droneCamera;
+let cameraMode = 'drone';
+let cameraPath = [];
+let cameraTarget = new THREE.Vector3(0, 0, 0);
+let autoRotate = true;
+let pathProgress = 0;
+let loadingManager;
+
+// パラメータ
+const CAMERA_HEIGHT = 80;
+const CAMERA_DISTANCE = 250;
+const ANIMATION_DURATION = 120; // 周回にかかる秒数
+const BUILDING_SIZE = 100;
+
+// 初期化関数
+function init() {
+    // シーンの設定
+    scene = new THREE.Scene();
+    scene.fog = new THREE.FogExp2(0xCCE0FF, 0.0005);
+    
+    // 時計オブジェクト
+    clock = new THREE.Clock();
+    
+    // レンダラーの設定
+    const canvas = document.getElementById('facility-canvas');
+    renderer = new THREE.WebGLRenderer({ 
+        canvas, 
+        antialias: true,
+        alpha: true
+    });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setPixelRatio(window.devicePixelRatio);
+    renderer.shadowMap.enabled = true;
+    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+    
+    // カメラの設定
+    const aspect = window.innerWidth / window.innerHeight;
+    camera = new THREE.PerspectiveCamera(60, aspect, 0.1, 5000);
+    camera.position.set(CAMERA_DISTANCE, CAMERA_HEIGHT, CAMERA_DISTANCE);
+    camera.lookAt(cameraTarget);
+    
+    // ドローンカメラのパス作成
+    createCameraPath();
+    
+    // コントロールの設定
+    controls = new THREE.OrbitControls(camera, renderer.domElement);
+    controls.enableDamping = true;
+    controls.dampingFactor = 0.05;
+    controls.enableZoom = true;
+    controls.minDistance = 100;
+    controls.maxDistance = 500;
+    controls.enabled = false; // 最初はオフに
+    
+    // ライティングの設定
+    setupLighting();
+    
+    // 研究施設モデルの作成
+    createFacility();
+    
+    // 地形の作成
+    createTerrain();
+    
+    // イベントリスナーの設定
+    setupEventListeners();
+    
+    // リサイズハンドラ
+    window.addEventListener('resize', onWindowResize);
+    
+    // アニメーションループ開始
+    animate();
+}
+
+// ローディングマネージャの設定
+function setupLoadingManager() {
+    loadingManager = new THREE.LoadingManager();
+    
+    const loadingScreen = document.querySelector('.loading-screen');
+    const loadingBar = document.getElementById('loading-bar');
+    
+    loadingManager.onProgress = (url, itemsLoaded, itemsTotal) => {
+        const progress = (itemsLoaded / itemsTotal) * 100;
+        loadingBar.style.width = progress + '%';
+    };
+    
+    loadingManager.onLoad = () => {
+        setTimeout(() => {
+            loadingScreen.classList.add('fade-out');
+            setTimeout(() => {
+                loadingScreen.style.display = 'none';
+            }, 500);
+        }, 1000);
+    };
+}
+
+// ウィンドウリサイズのハンドリング
+function onWindowResize() {
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+}
+
+// カメラパスの作成
+function createCameraPath() {
+    const radius = CAMERA_DISTANCE;
+    const segments = 100;
+    
+    // 楕円形のパスを作成
+    for (let i = 0; i <= segments; i++) {
+        const theta = (i / segments) * Math.PI * 2;
+        const x = radius * 1.5 * Math.cos(theta);
+        const z = radius * Math.sin(theta);
+        const y = CAMERA_HEIGHT + 20 * Math.sin(theta * 2); // 高さに変化を加える
+        
+        cameraPath.push(new THREE.Vector3(x, y, z));
+    }
+}
+
+// ライティングのセットアップ
+function setupLighting() {
+    // 環境光
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+    scene.add(ambientLight);
+    
+    // メインの太陽光
+    const mainLight = new THREE.DirectionalLight(0xfffaea, 1);
+    mainLight.position.set(500, 500, -500);
+    mainLight.castShadow = true;
+    
+    // シャドウマップの設定
+    mainLight.shadow.mapSize.width = 2048;
+    mainLight.shadow.mapSize.height = 2048;
+    mainLight.shadow.camera.left = -500;
+    mainLight.shadow.camera.right = 500;
+    mainLight.shadow.camera.top = 500;
+    mainLight.shadow.camera.bottom = -500;
+    mainLight.shadow.camera.far = 2000;
+    
+    scene.add(mainLight);
+    
+    // 補助光
+    const fillLight = new THREE.DirectionalLight(0xc2d0ff, 0.5);
+    fillLight.position.set(-500, 300, 500);
+    scene.add(fillLight);
+}
+
+// 研究施設の作成
+function createFacility() {
+    // メインビルディング
+    createMainBuilding();
+    
+    // ラボ棟
+    createLabBuilding();
+    
+    // 発電所
+    createPowerPlant();
+    
+    // 周辺施設
+    createSurroundingStructures();
+    
+    // 植栽
+    createVegetation();
+}
+
+// メインビルディングの作成
+function createMainBuilding() {
+    // 建物の本体
+    const buildingGeo = new THREE.BoxGeometry(BUILDING_SIZE, BUILDING_SIZE * 1.5, BUILDING_SIZE);
+    const buildingMat = new THREE.MeshPhongMaterial({ 
+        color: 0xffffff,
+        shininess: 80
+    });
+    const mainBuilding = new THREE.Mesh(buildingGeo, buildingMat);
+    mainBuilding.position.set(0, BUILDING_SIZE * 0.75, 0);
+    mainBuilding.castShadow = true;
+    mainBuilding.receiveShadow = true;
+    scene.add(mainBuilding);
+
+    // ガラスのファサード
+    const glassGeo = new THREE.PlaneGeometry(BUILDING_SIZE * 0.9, BUILDING_SIZE * 1.4);
+    const glassMat = new THREE.MeshPhongMaterial({ 
+        color: 0x7ec0ee,
+        shininess: 90,
+        transparent: true,
+        opacity: 0.7,
+        side: THREE.DoubleSide
+    });
+    
+    // 前面
+    const frontGlass = new THREE.Mesh(glassGeo, glassMat);
+    frontGlass.position.set(0, BUILDING_SIZE * 0.75, BUILDING_SIZE / 2 + 0.1);
+    scene.add(frontGlass);
+    
+    // 背面
+    const backGlass = new THREE.Mesh(glassGeo, glassMat);
+    backGlass.position.set(0, BUILDING_SIZE * 0.75, -BUILDING_SIZE / 2 - 0.1);
+    scene.add(backGlass);
+    
+    // 屋上ヘリポート
+    const helipadGeo = new THREE.CylinderGeometry(BUILDING_SIZE * 0.3, BUILDING_SIZE * 0.3, 2, 32);
+    const helipadMat = new THREE.MeshPhongMaterial({ color: 0x222222 });
+    const helipad = new THREE.Mesh(helipadGeo, helipadMat);
+    helipad.position.set(0, BUILDING_SIZE * 1.5 + 1, 0);
+    helipad.receiveShadow = true;
+    scene.add(helipad);
+    
+    // Hマーク
+    const hMarkGeo = new THREE.PlaneGeometry(BUILDING_SIZE * 0.4, BUILDING_SIZE * 0.4);
+    const hMarkMat = new THREE.MeshBasicMaterial({ 
+        color: 0xffffff,
+        side: THREE.DoubleSide
+    });
+    const hMark = new THREE.Mesh(hMarkGeo, hMarkMat);
+    hMark.rotation.x = -Math.PI / 2;
+    hMark.position.set(0, BUILDING_SIZE * 1.5 + 2.1, 0);
+    scene.add(hMark);
+}
+
+// ラボ棟の作成
+function createLabBuilding() {
+    // ラボ棟 - 円筒形
+    const labGeo = new THREE.CylinderGeometry(BUILDING_SIZE * 0.3, BUILDING_SIZE * 0.3, BUILDING_SIZE * 0.8, 32);
+    const labMat = new THREE.MeshPhongMaterial({ 
+        color: 0xe0e0e0,
+        shininess: 60
+    });
+    const labBuilding = new THREE.Mesh(labGeo, labMat);
+    labBuilding.position.set(BUILDING_SIZE * 1.2, BUILDING_SIZE * 0.4, BUILDING_SIZE * 0.8);
+    labBuilding.castShadow = true;
+    labBuilding.receiveShadow = true;
+    scene.add(labBuilding);
+    
+    // 屋上ドーム
+    const domeGeo = new THREE.SphereGeometry(BUILDING_SIZE * 0.25, 32, 32, 0, Math.PI * 2, 0, Math.PI / 2);
+    const domeMat = new THREE.MeshPhongMaterial({ 
+        color: 0xb3e6ff,
+        shininess: 90,
+        transparent: true,
+        opacity: 0.8
+    });
+    const dome = new THREE.Mesh(domeGeo, domeMat);
+    dome.position.set(BUILDING_SIZE * 1.2, BUILDING_SIZE * 0.8, BUILDING_SIZE * 0.8);
+    dome.castShadow = true;
+    scene.add(dome);
+    
+    // 接続ブリッジ
+    const bridgeGeo = new THREE.BoxGeometry(BUILDING_SIZE, BUILDING_SIZE * 0.1, BUILDING_SIZE * 0.2);
+    const bridgeMat = new THREE.MeshPhongMaterial({ color: 0xd0d0d0 });
+    const bridge = new THREE.Mesh(bridgeGeo, bridgeMat);
+    bridge.position.set(BUILDING_SIZE * 0.6, BUILDING_SIZE * 0.5, BUILDING_SIZE * 0.4);
+    bridge.castShadow = true;
+    bridge.receiveShadow = true;
+    scene.add(bridge);
+}
+
+// 発電所の作成
+function createPowerPlant() {
+    // 発電所の基礎
+    const baseGeo = new THREE.BoxGeometry(BUILDING_SIZE * 0.8, BUILDING_SIZE * 0.3, BUILDING_SIZE * 0.8);
+    const baseMat = new THREE.MeshPhongMaterial({ color: 0x505050 });
+    const baseBuilding = new THREE.Mesh(baseGeo, baseMat);
+    baseBuilding.position.set(-BUILDING_SIZE * 1.0, BUILDING_SIZE * 0.15, -BUILDING_SIZE * 0.7);
+    baseBuilding.castShadow = true;
+    baseBuilding.receiveShadow = true;
+    scene.add(baseBuilding);
+    
+    // 発電タービン
+    const turbineGeo = new THREE.CylinderGeometry(BUILDING_SIZE * 0.15, BUILDING_SIZE * 0.15, BUILDING_SIZE * 0.5, 16);
+    const turbineMat = new THREE.MeshPhongMaterial({ 
+        color: 0x707070,
+        shininess: 70
+    });
+    
+    // 3つの発電タービンを作成
+    for (let i = 0; i < 3; i++) {
+        const turbine = new THREE.Mesh(turbineGeo, turbineMat);
+        turbine.position.set(
+            -BUILDING_SIZE * 1.0 + (i - 1) * BUILDING_SIZE * 0.25,
+            BUILDING_SIZE * 0.5,
+            -BUILDING_SIZE * 0.7
+        );
+        turbine.castShadow = true;
+        turbine.receiveShadow = true;
+        scene.add(turbine);
+    }
+}
+
+// 周辺構造物の作成
+function createSurroundingStructures() {
+    // 駐車場
+    const parkingGeo = new THREE.PlaneGeometry(BUILDING_SIZE * 2, BUILDING_SIZE * 1.5);
+    const parkingMat = new THREE.MeshPhongMaterial({ 
+        color: 0x333333,
+        side: THREE.DoubleSide
+    });
+    const parking = new THREE.Mesh(parkingGeo, parkingMat);
+    parking.rotation.x = -Math.PI / 2;
+    parking.position.set(BUILDING_SIZE * 1.5, 0.1, -BUILDING_SIZE * 0.5);
+    parking.receiveShadow = true;
+    scene.add(parking);
+    
+    // アクセス道路
+    const roadGeo = new THREE.PlaneGeometry(BUILDING_SIZE * 0.5, BUILDING_SIZE * 3);
+    const roadMat = new THREE.MeshPhongMaterial({ 
+        color: 0x444444,
+        side: THREE.DoubleSide
+    });
+    const road = new THREE.Mesh(roadGeo, roadMat);
+    road.rotation.x = -Math.PI / 2;
+    road.position.set(BUILDING_SIZE * 0.7, 0.1, BUILDING_SIZE * 1.5);
+    road.receiveShadow = true;
+    scene.add(road);
+    
+    // 周囲のフェンス
+    createFence();
+}
+
+// フェンスの作成
+function createFence() {
+    const fenceRadius = BUILDING_SIZE * 2.5;
+    const fenceHeight = BUILDING_SIZE * 0.1;
+    const fenceSegments = 32;
+    
+    const fenceMat = new THREE.MeshPhongMaterial({ color: 0x505050 });
+    
+    for (let i = 0; i < fenceSegments; i++) {
+        const theta = (i / fenceSegments) * Math.PI * 2;
+        const nextTheta = ((i + 1) / fenceSegments) * Math.PI * 2;
+        
+        const x1 = fenceRadius * Math.cos(theta);
+        const z1 = fenceRadius * Math.sin(theta);
+        const x2 = fenceRadius * Math.cos(nextTheta);
+        const z2 = fenceRadius * Math.sin(nextTheta);
+        
+        // フェンスの柱
+        const postGeo = new THREE.BoxGeometry(2, fenceHeight * 2, 2);
+        const post = new THREE.Mesh(postGeo, fenceMat);
+        post.position.set(x1, fenceHeight, z1);
+        post.castShadow = true;
+        scene.add(post);
+        
+        // フェンスのセグメント
+        const length = Math.sqrt((x2 - x1) ** 2 + (z2 - z1) ** 2);
+        const fenceGeo = new THREE.BoxGeometry(length, fenceHeight * 0.5, 0.5);
+        const fence = new THREE.Mesh(fenceGeo, fenceMat);
+        fence.position.set((x1 + x2) / 2, fenceHeight * 0.75, (z1 + z2) / 2);
+        
+        // フェンスの回転
+        fence.lookAt(new THREE.Vector3(x2, fenceHeight * 0.75, z2));
+        fence.rotateY(Math.PI / 2);
+        
+        fence.castShadow = true;
+        scene.add(fence);
+    }
+}
+
+// 植栽の作成
+function createVegetation() {
+    // 木の作成
+    const treePositions = [
+        { x: BUILDING_SIZE * 1.5, z: BUILDING_SIZE * 1.5 },
+        { x: BUILDING_SIZE * 1.2, z: BUILDING_SIZE * 1.8 },
+        { x: BUILDING_SIZE * 1.8, z: BUILDING_SIZE * 1.2 },
+        { x: -BUILDING_SIZE * 1.5, z: BUILDING_SIZE * 1.2 },
+        { x: -BUILDING_SIZE * 1.8, z: BUILDING_SIZE * 0.8 },
+        { x: -BUILDING_SIZE * 1.2, z: -BUILDING_SIZE * 1.5 },
+        { x: BUILDING_SIZE * 1.8, z: -BUILDING_SIZE * 1.5 },
+        // ランダムな位置に更に木を追加
+        ...Array(15).fill().map(() => ({
+            x: (Math.random() - 0.5) * BUILDING_SIZE * 4.5, 
+            z: (Math.random() - 0.5) * BUILDING_SIZE * 4.5
+        }))
+    ];
+    
+    // 中心付近の木を除外
+    const trees = treePositions.filter(pos => {
+        const distance = Math.sqrt(pos.x ** 2 + pos.z ** 2);
+        return distance > BUILDING_SIZE * 0.8;
+    });
+    
+    trees.forEach(pos => createTree(pos.x, pos.z));
+}
+
+// 木の作成
+function createTree(x, z) {
+    // 幹
+    const trunkGeo = new THREE.CylinderGeometry(2, 3, 15, 8);
+    const trunkMat = new THREE.MeshPhongMaterial({ color: 0x8B4513 });
+    const trunk = new THREE.Mesh(trunkGeo, trunkMat);
+    trunk.position.set(x, 7.5, z);
+    trunk.castShadow = true;
+    trunk.receiveShadow = true;
+    scene.add(trunk);
+    
+    // 葉
+    const leafGeo = new THREE.ConeGeometry(10, 25, 8);
+    const leafMat = new THREE.MeshPhongMaterial({ color: 0x2E8B57 });
+    const leaf = new THREE.Mesh(leafGeo, leafMat);
+    leaf.position.set(x, 25, z);
+    leaf.castShadow = true;
+    leaf.receiveShadow = true;
+    scene.add(leaf);
+}
+
+// 地形の作成
+function createTerrain() {
+    // 地面
+    const groundGeo = new THREE.CircleGeometry(BUILDING_SIZE * 6, 64);
+    const groundMat = new THREE.MeshPhongMaterial({ 
+        color: 0x7cbe7c,
+        side: THREE.DoubleSide
+    });
+    const ground = new THREE.Mesh(groundGeo, groundMat);
+    ground.rotation.x = -Math.PI / 2;
+    ground.position.set(0, 0, 0);
+    ground.receiveShadow = true;
+    scene.add(ground);
+    
+    // 周囲の山
+    createMountains();
+    
+    // 空のスカイボックス
+    createSkybox();
+}
+
+// 山の作成
+function createMountains() {
+    const mountainRadius = BUILDING_SIZE * 5;
+    const numMountains = 8;
+    
+    for (let i = 0; i < numMountains; i++) {
+        const theta = (i / numMountains) * Math.PI * 2;
+        const x = mountainRadius * Math.cos(theta);
+        const z = mountainRadius * Math.sin(theta);
+        
+        // 山の高さとサイズをランダム化
+        const height = BUILDING_SIZE * (0.5 + Math.random() * 0.5);
+        const radius = BUILDING_SIZE * (1.5 + Math.random() * 1);
+        
+        const mountainGeo = new THREE.ConeGeometry(radius, height, 16);
+        const mountainMat = new THREE.MeshPhongMaterial({ 
+            color: 0x567d46,
+            shininess: 5
+        });
+        
+        const mountain = new THREE.Mesh(mountainGeo, mountainMat);
+        mountain.position.set(x, height/2, z);
+        mountain.castShadow = true;
+        mountain.receiveShadow = true;
+        scene.add(mountain);
+    }
+}
+
+// スカイボックスの作成
+function createSkybox() {
+    const skyGeo = new THREE.SphereGeometry(2000, 32, 32);
+    
+    // グラデーションのテクスチャを作成
+    const canvas = document.createElement('canvas');
+    canvas.width = 1;
+    canvas.height = 128;
+    const context = canvas.getContext('2d');
+    
+    // グラデーションを描画
+    const gradient = context.createLinearGradient(0, 0, 0, 128);
+    gradient.addColorStop(0, '#1e90ff');
+    gradient.addColorStop(0.5, '#87ceeb');
+    gradient.addColorStop(1, '#ffffff');
+    context.fillStyle = gradient;
+    context.fillRect(0, 0, 1, 128);
+    
+    const texture = new THREE.CanvasTexture(canvas);
+    
+    const skyMat = new THREE.MeshBasicMaterial({
+        map: texture,
+        side: THREE.BackSide
+    });
+    
+    const sky = new THREE.Mesh(skyGeo, skyMat);
+    scene.add(sky);
+}
+
+// イベントリスナーの設定
+function setupEventListeners() {
+    // 自動回転切り替え
+    document.getElementById('autoRotateToggle').addEventListener('change', (e) => {
+        autoRotate = e.target.checked;
+        controls.enabled = !autoRotate;
+        if (autoRotate) {
+            // 自動回転に戻るときは、現在のカメラ位置から一番近いパス上の点を探す
+            findClosestPathPoint();
+        }
+    });
+}
+
+// 現在のカメラ位置から最も近いパス上の点を見つける
+function findClosestPathPoint() {
+    let minDistance = Infinity;
+    let closestIndex = 0;
+    
+    for (let i = 0; i < cameraPath.length; i++) {
+        const distance = camera.position.distanceTo(cameraPath[i]);
+        if (distance < minDistance) {
+            minDistance = distance;
+            closestIndex = i;
+        }
+    }
+    
+    pathProgress = closestIndex / (cameraPath.length - 1);
+}
+
+// アニメーションループ
+function animate() {
+    requestAnimationFrame(animate);
+    
+    const delta = clock.getDelta();
+    
+    // ミキサーがあれば更新
+    if (mixer) {
+        mixer.update(delta);
+    }
+    
+    // カメラアップデート
+    updateCamera(delta);
+    
+    // コントロールの更新
+    controls.update();
+    
+    // レンダリング
+    renderer.render(scene, camera);
+}
+
+// カメラの更新
+function updateCamera(delta) {
+    if (autoRotate) {
+        // パスに沿ってカメラを動かす
+        pathProgress += delta / ANIMATION_DURATION;
+        if (pathProgress >= 1) {
+            pathProgress = 0;
+        }
+        
+        const index = Math.floor(pathProgress * (cameraPath.length - 1));
+        const nextIndex = (index + 1) % cameraPath.length;
+        const alpha = pathProgress * (cameraPath.length - 1) - index;
+        
+        // 位置の線形補間
+        camera.position.lerpVectors(cameraPath[index], cameraPath[nextIndex], alpha);
+        
+        // 常に中心を見る
+        camera.lookAt(cameraTarget);
+    }
+}
+
+// ページロード時に初期化
+window.addEventListener('load', () => {
+    // ローディングマネージャの設定
+    setupLoadingManager();
+    
+    // Three.jsの初期化
+    init();
+});

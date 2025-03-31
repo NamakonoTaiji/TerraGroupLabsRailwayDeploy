@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+Allow: /about
+Allow: /service
+Disallow: /admin/
+Disallow: /login
+Disallow: /debug-session
+
+Sitemap: https://terragrouplabs.com/sitemap.xml

@@ -1,0 +1,847 @@
+/* ==========================================================================
+   1. リセットスタイル
+   ========================================================================== */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* ==========================================================================
+   2. CSS変数定義
+   ========================================================================== */
+:root {
+  /* カラーパレット */
+  /* プライマリーカラー - 青のバリエーション */
+  --primary-dark: #001E37;   /* 濃い青 - テキストや重要な要素 */
+  --primary: #0056B3;        /* メインの青 - ボタンやアクセント */
+  --primary-light: #4D8CC8;  /* 明るい青 - ホバー状態やサブ要素 */
+  
+  /* モノクロトーン */
+  --black: #111111;         /* ほぼ黒 - 主要テキスト */
+  --dark-gray: #333333;     /* 暗いグレー - サブテキスト */
+  --medium-gray: #666666;   /* 中間グレー - 境界線やアイコン */
+  --light-gray: #E0E0E0;    /* 明るいグレー - 背景やディバイダー */
+  --off-white: #F8F9FA;     /* オフホワイト - 背景 */
+  --white: #FFFFFF;         /* 純白 - テキストやカード背景 */
+  
+  /* アクセントカラー - ポイントで使用 */
+  --accent: #00C2FF;        /* 明るい青 - 注目要素 */
+  --danger: #FF3B30;        /* 赤 - エラーや警告 */
+  --success: #28A745;       /* 緑 - 成功メッセージ */
+
+  /* タイポグラフィ */
+  /* フォントファミリー */
+  --font-primary: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-secondary: 'Space Grotesk', sans-serif;
+  --font-monospace: 'JetBrains Mono', monospace;
+  
+  /* フォントサイズ */
+  --text-xs: 0.75rem;    /* 12px */
+  --text-sm: 0.875rem;   /* 14px */
+  --text-base: 1rem;     /* 16px */
+  --text-lg: 1.125rem;   /* 18px */
+  --text-xl: 1.25rem;    /* 20px */
+  --text-2xl: 1.5rem;    /* 24px */
+  --text-3xl: 1.875rem;  /* 30px */
+  --text-4xl: 2.25rem;   /* 36px */
+  --text-5xl: 3rem;      /* 48px */
+  --text-6xl: 3.75rem;   /* 60px */
+  
+  /* 行の高さ */
+  --leading-none: 1;
+  --leading-tight: 1.25;
+  --leading-normal: 1.5;
+  --leading-relaxed: 1.75;
+
+  /* レイアウト */
+  /* スペーシング変数 */
+  --spacing-0: 0;
+  --spacing-1: 0.25rem;  /* 4px */
+  --spacing-2: 0.5rem;   /* 8px */
+  --spacing-3: 0.75rem;  /* 12px */
+  --spacing-4: 1rem;     /* 16px */
+  --spacing-5: 1.25rem;  /* 20px */
+  --spacing-6: 1.5rem;   /* 24px */
+  --spacing-8: 2rem;     /* 32px */
+  --spacing-10: 2.5rem;  /* 40px */
+  --spacing-12: 3rem;    /* 48px */
+  --spacing-16: 4rem;    /* 64px */
+  --spacing-20: 5rem;    /* 80px */
+  --spacing-24: 6rem;    /* 96px */
+  --spacing-32: 8rem;    /* 128px */
+  
+  /* セクション間の間隔 */
+  --section-spacing: var(--spacing-24);
+  --subsection-spacing: var(--spacing-16);
+
+  /* 外観 */
+  /* 角丸 */
+  --radius-sm: 0.125rem;   /* 2px */
+  --radius-md: 0.25rem;    /* 4px */
+  --radius-lg: 0.5rem;     /* 8px */
+  --radius-xl: 1rem;       /* 16px */
+  --radius-full: 9999px;   /* 完全な丸 */
+  
+  /* シャドウ */
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+/* ==========================================================================
+   3. 基本要素のスタイル
+   ========================================================================== */
+body {
+  font-family: var(--font-primary);
+  font-size: var(--text-base);
+  line-height: var(--leading-normal);
+  color: var(--black);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-secondary);
+  font-weight: 500;
+  line-height: var(--leading-tight);
+}
+
+h1 {
+  font-size: var(--text-5xl);
+  margin-bottom: 1.5rem;
+}
+
+h2 {
+  font-size: var(--text-3xl);
+  margin-bottom: 1.25rem;
+}
+
+h3 {
+  font-size: var(--text-2xl);
+  margin-bottom: 1rem;
+}
+
+p {
+  margin-bottom: 1rem;
+}
+
+code, pre {
+  font-family: var(--font-monospace);
+}
+
+/* ==========================================================================
+   4. レイアウトクラス
+   ========================================================================== */
+.container {
+  padding-left: var(--spacing-4);
+  padding-right: var(--spacing-4);
+}
+
+.section {
+  padding-top: var(--section-spacing);
+  padding-bottom: var(--section-spacing);
+}
+
+.page-header {
+  padding-top: 60px;
+  background-color: var(--off-white);
+}
+
+/* サービスセクション全体の余白調整 */
+#services {
+  padding-top: 5rem;
+  padding-bottom: 5rem;
+}
+
+/* サービスカード間の間隔 */
+.row.g-4 {
+  margin-bottom: 3rem;
+}
+
+/* ==========================================================================
+   5. コンポーネントスタイル
+   ========================================================================== */
+
+/* 5.1 ナビゲーション */
+.navbar {
+  box-shadow: var(--shadow-sm);
+}
+/* ナビゲーションバーの高さ調整 - 既存のスタイルを強化 */
+.navbar.terra-nav {
+  padding: 1.2rem 0;
+  transition: all 0.3s ease;
+  will-change: padding, height; /* パフォーマンス向上のためのヒント */
+}
+
+.navbar.terra-nav .navbar-brand img {
+  height: 50px;
+  transition: height 0.3s ease;
+  will-change: height;
+}
+
+.navbar.terra-nav.scrolled {
+  padding: 0.5rem 0;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.navbar.terra-nav.scrolled .navbar-brand img {
+  height: 35px;
+}
+
+/* ナビゲーションリンクも調整 */
+.navbar.terra-nav .nav-link {
+  padding: 0.5rem 1rem;
+  transition: padding 0.3s ease;
+}
+
+.navbar.terra-nav.scrolled .nav-link {
+  padding: 0.4rem 1rem;
+}
+.terra-nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  padding: var(--spacing-1) 0;
+  z-index: 1000;
+  transition: background-color 0.3s ease, padding 0.3s ease;
+}
+
+.terra-nav.scrolled {
+  background-color: var(--white);
+  box-shadow: var(--shadow-sm);
+  padding: var(--spacing-2) 0;
+}
+
+.terra-nav-link, 
+.navbar-dark .navbar-nav .nav-link {
+  color: var(--white) !important;
+  font-weight: 500;
+  padding: var(--spacing-2) var(--spacing-4);
+  position: relative;
+  transition: color 0.3s ease;
+}
+
+.terra-nav-link:hover, 
+.navbar-dark .navbar-nav .nav-link:hover,
+.navbar-dark .navbar-nav .nav-link:focus {
+  color: var(--light-gray) !important;
+}
+
+.terra-nav-link.active, 
+.navbar-dark .navbar-nav .nav-link.active {
+  color: var(--white) !important;
+  font-weight: 700;
+}
+
+.terra-nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 0;
+  height: 2px;
+  background-color: var(--primary);
+  transition: width 0.3s ease, left 0.3s ease;
+}
+
+.terra-nav-link:hover::after {
+  width: 100%;
+  left: 0;
+}
+
+/* 5.2 ボタン */
+.btn-primary, 
+.terra-btn-primary {
+  background-color: var(--primary);
+  color: var(--white);
+  border-color: var(--primary);
+  padding: var(--spacing-3) var(--spacing-6);
+  border-radius: var(--radius-md);
+  font-weight: 500;
+  letter-spacing: 0.025em;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-primary:hover, 
+.terra-btn-primary:hover {
+  background-color: var(--primary-dark);
+  border-color: var(--primary-dark);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.terra-btn {
+  border-radius: var(--radius-md);
+  padding: var(--spacing-2) var(--spacing-4);
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.terra-btn-rounded {
+  border-radius: var(--radius-full);
+}
+
+.terra-btn-outline {
+  background-color: transparent;
+  color: var(--primary);
+  border: 1px solid var(--primary);
+  padding: var(--spacing-3) var(--spacing-6);
+  border-radius: var(--radius-md);
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.terra-btn-outline:hover {
+  background-color: var(--primary);
+  color: var(--white);
+}
+
+/* 5.3 カードとサービス */
+.terra-card {
+  height: 100%;
+  background-color: var(--white);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  overflow: hidden;
+}
+/* サービスカードのレスポンシブ調整 */
+@media (max-width: 576px) {
+  .terra-card {
+    margin-bottom: 1.5rem;
+  }
+  
+  .service-icon-large {
+    font-size: 3rem;
+  }
+}
+.terra-card:hover {
+  transform: translateY(-10px);
+  box-shadow: var(--shadow-lg);
+}
+
+.terra-card .card-img-top {
+  height: 200px;
+  object-fit: cover;
+  object-position: center;
+}
+
+.terra-card .card-body {
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.terra-card .mt-auto {
+  margin-top: auto;
+}
+
+.terra-card .service-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  background-color: rgba(0, 86, 179, 0.1);
+  color: var(--primary);
+  font-size: 2rem;
+  transition: all 0.3s ease;
+}
+
+.terra-card:hover .service-icon {
+  background-color: var(--primary);
+  color: var(--white);
+  transform: scale(1.1);
+}
+
+.terra-card h3 {
+  position: relative;
+  padding-bottom: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.terra-card h3::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 50px;
+  height: 3px;
+  background-color: var(--primary);
+  transition: width 0.3s ease;
+}
+
+.terra-card:hover h3::after {
+  width: 100px;
+}
+
+.service-icon {
+  font-size: 3rem;
+  color: var(--primary);
+}
+
+.service-detail {
+  padding: 30px 0;
+}
+
+.service-icon-large {
+  font-size: 5rem;
+  color: var(--primary);
+}
+
+/* 5.4 ヒーローセクション */
+.hero-section {
+	/* 通常の背景設定（フォールバック用） */
+  background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('../images/hero-bg.jpg');
+  
+  /* image-set()を使ったWebP対応版 */
+  background-image: 
+    linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), 
+    image-set(
+      url('../images/webp/hero-bg.webp') type('image/webp'),
+      url('../images/hero-bg.jpg') type('image/jpeg')
+    );
+  
+  background-size: cover;
+  background-position: center;
+  height: 100vh;
+  min-height: 500px;
+  color: var(--white);
+  display: flex;
+  align-items: center;
+}
+
+.bg-hero {
+  background-image: 
+    linear-gradient(rgba(0, 30, 55, 0.8), rgba(0, 30, 55, 0.9)),
+    url('/images/webp/hero-bg.webp');
+  background-image: 
+    linear-gradient(rgba(0, 30, 55, 0.8), rgba(0, 30, 55, 0.9)),
+    image-set(
+      url('/images/webp/hero-bg.webp') type('image/webp'),
+      url('/images/jpg/hero-bg.jpg') type('image/jpeg')
+    );
+}
+
+/* WebP非対応ブラウザ向けフォールバック */
+.no-webp .hero-section {
+  background-image: url('/images/hero-bg.jpg');
+}
+
+/* ヒーローセクションのレスポンシブ調整 */
+@media (max-width: 768px) {
+  .hero-section {
+    padding: 80px 0;
+  }
+  
+  .hero-section .display-title {
+    font-size: 2.5rem;
+  }
+  
+  .hero-section .lead {
+    font-size: 1rem;
+  }
+}
+/* 5.5 フォーム */
+#contact .card {
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-md);
+}
+
+/* 5.6 タイムライン */
+.timeline {
+  position: relative;
+  padding: 20px 0;
+}
+
+.timeline:before {
+  content: '';
+  position: absolute;
+  height: 100%;
+  width: 3px;
+  background: var(--primary);
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.timeline-item {
+  margin-bottom: 40px;
+  position: relative;
+  padding: 20px;
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+}
+
+.timeline-year {
+  position: absolute;
+  width: 120px;
+  background: var(--primary);
+  color: var(--white);
+  text-align: center;
+  padding: 5px 0;
+  border-radius: var(--radius-md);
+  top: -15px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+/* お問い合わせフォームのスタイル */
+#contact .card {
+  border: none;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+#contact .card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+#contact .input-group-text {
+  background-color: var(--primary);
+  color: white;
+  border: 1px solid var(--primary);
+}
+
+#contact .form-control:focus {
+  border-color: var(--primary-light);
+  box-shadow: 0 0 0 0.25rem rgba(0, 86, 179, 0.25);
+}
+/* ナビゲーションバーの高さ調整 */
+.terra-nav {
+  padding: 1.2rem 0;
+  transition: all 0.3s ease;
+}
+
+.terra-nav .navbar-brand img {
+  height: 50px;
+  transition: height 0.3s ease;
+}
+
+.terra-nav.scrolled {
+  padding: 0.5rem 0;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.terra-nav.scrolled .navbar-brand img {
+  height: 35px;
+}
+
+/* ナビゲーションリンクも調整 */
+.terra-nav .nav-link {
+  padding: 0.5rem 1rem;
+  transition: padding 0.3s ease;
+}
+
+.terra-nav.scrolled .nav-link {
+  padding: 0.4rem 1rem;
+}
+/* reCAPTCHAが小さい画面ではみ出すのを防ぐ */
+.g-recaptcha {
+	margin-bottom: 1rem;
+	display: inline-block;
+  	transform-origin: left top;
+  	transform: scale(0.95);
+}
+.g-recaptcha.error {
+  border: 1px solid #dc3545;
+  animation: shake 0.5s ease-in-out;
+  border-radius: 4px;
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+  20%, 40%, 60%, 80% { transform: translateX(5px); }
+}
+@media (max-width: 400px) {
+  .g-recaptcha {
+    transform: scale(0.85);
+  }
+}
+
+/* タイムラインセクション */
+.timeline {
+  padding: 20px 0;
+}
+
+.timeline-item {
+  position: relative;
+  margin-bottom: 30px;
+  transition: transform 0.3s ease;
+}
+
+.timeline-item:hover {
+  transform: translateY(-5px);
+}
+
+/* チームセクション */
+.team-card {
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.team-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+.team-overlay {
+  transition: opacity 0.3s ease;
+}
+
+.team-card:hover .team-overlay {
+  opacity: 1 !important;
+}
+
+/* カラー変数の追加 */
+:root {
+  --primary-light: rgba(0, 86, 179, 0.1);
+}
+
+/* ニュースカード */
+.card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  overflow: hidden;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+.card-img-top {
+  height: 200px;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.card:hover .card-img-top {
+  transform: scale(1.05);
+}
+
+.btn-link {
+  color: var(--primary);
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.btn-link:hover {
+  color: var(--primary-dark);
+}
+  .invalid-feedback, .text-danger {
+    display: block;
+    color: #dc3545;
+    font-weight: 500;
+    padding-top: 0.5rem;
+    animation: shake 0.5s ease-in-out;
+  }
+  
+  .is-invalid {
+    border-color: #dc3545 !important;
+    box-shadow: 0 0 0 0.25rem rgba(220, 53, 69, 0.25) !important;
+  }
+  
+  @keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+    20%, 40%, 60%, 80% { transform: translateX(5px); }
+  }
+  
+  /* エラーアイコンを追加 */
+  .is-invalid + .invalid-feedback::before {
+    content: "⚠️ ";
+  }
+/* レスポンシブ調整 */
+@media (max-width: 768px) {
+  .timeline-item {
+    margin-bottom: 20px;
+  }
+  
+  .display-4 {
+    font-size: 2.5rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .timeline-item {
+    padding: 15px;
+  }
+  
+  .display-4 {
+    font-size: 2rem;
+  }
+}
+/* TerraGroupLabsLandingPage/src/main/resources/static/css/styles.css に追加 */
+.animate-fade-in {
+  opacity: 0;
+  animation: fadeIn 1s ease-in-out forwards;
+}
+
+.animate-fade-in-delayed {
+  opacity: 0;
+  animation: fadeIn 1s ease-in-out 0.3s forwards;
+}
+
+.animate-fade-in-delayed-more {
+  opacity: 0;
+  animation: fadeIn 1s ease-in-out 0.6s forwards;
+}
+
+@keyframes fadeIn {
+  from { 
+    opacity: 0; 
+    transform: translateY(20px);
+  }
+  to { 
+    opacity: 1; 
+    transform: translateY(0);
+  }
+}
+/* 初期ページ読み込み時のスクロール制御 */
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 80px; /* ナビゲーションバーの高さ分 */
+}
+/* ==========================================================================
+   6. アニメーション
+   ========================================================================== */
+.animate-on-scroll {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+.fade-in-up {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.animate-fade-in-delayed-more {
+  opacity: 0;
+  animation: fadeIn 1s ease-in-out 0.6s forwards;
+  transition: opacity 1s ease-in-out 0.6s, transform 1s ease-in-out 0.6s;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.hero-section:hover .animate-fade-in-delayed-more {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ==========================================================================
+   7. ユーティリティクラス
+   ========================================================================== */
+.display-title {
+  font-size: var(--text-6xl);
+  font-weight: 700;
+  letter-spacing: -0.025em;
+}
+
+.text-muted {
+  color: var(--dark-gray) !important;
+}
+
+.bg-primary {
+  background-color: var(--primary) !important;
+}
+
+.bg-light {
+  background-color: var(--off-white) !important;
+}
+
+.badge {
+  font-weight: 500;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+}
+
+/* ==========================================================================
+   8. アクセシビリティ
+   ========================================================================== */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+input:focus, button:focus, a:focus, textarea:focus {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+/* ==========================================================================
+   9. メディアクエリ
+   ========================================================================== */
+@media (max-width: 768px) {
+  .section {
+    padding-top: var(--spacing-16);
+    padding-bottom: var(--spacing-16);
+  }
+  
+  h1 {
+    font-size: var(--text-4xl);
+  }
+  
+  h2 {
+    font-size: var(--text-2xl);
+  }
+  
+  .display-title {
+    font-size: var(--text-5xl);
+  }
+  
+  .hero-section {
+    min-height: 400px;
+  }
+  
+  .timeline:before {
+    left: 30px;
+  }
+  
+  .timeline-item {
+    padding: 15px;
+  }
+  
+  .timeline-year {
+    left: 30px;
+  }
+}
+
+@media (max-width: 576px) {
+  .section {
+    padding-top: var(--spacing-12);
+    padding-bottom: var(--spacing-12);
+  }
+  
+  h1 {
+    font-size: var(--text-3xl);
+  }
+  
+  .display-title {
+    font-size: var(--text-4xl);
+  }
+}
