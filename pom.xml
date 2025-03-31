@@ -161,14 +161,14 @@
                         <phase>prepare-package</phase>
                         <configuration>
                             <charset>UTF-8</charset>
-                            <cssSourceDir>src/main/resources/static/css/styles.css</cssSourceDir>
+                            <cssSourceDir>${project.build.outputDirectory}/static/css</cssSourceDir>
                             <cssSourceFiles>
                                 <cssSourceFile>styles.css</cssSourceFile>
                                 <!-- 他のCSSファイルがある場合はここに追加 -->
                             </cssSourceFiles>
                             <cssFinalFile>styles.min.css</cssFinalFile>
 
-                            <jsSourceDir>src/main/resources/static/js</jsSourceDir>
+                            <jsSourceDir>${project.build.outputDirectory}/static/js</jsSourceDir>
                             <jsSourceFiles>
                                 <jsSourceFile>main.js</jsSourceFile>
                                 <!-- 他のJSファイルがある場合はここに追加 -->
