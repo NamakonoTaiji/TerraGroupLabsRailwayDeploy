@@ -11,6 +11,8 @@ WORKDIR /app
 COPY .mvn/ .mvn
 COPY mvnw pom.xml ./
 
+# mvnw に実行権限を付与する
+RUN chmod +x ./mvnw
 # Mavenの依存関係をダウンロード (レイヤーキャッシュを活用)
 # ./mvnw dependency:go-offline を使うとより効率的ですが、まずはシンプルな方法で
 RUN ./mvnw dependency:resolve
