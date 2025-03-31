@@ -141,9 +141,6 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
-
-            <!-- JavaScript/CSS Minifier プラグイン -->
-
         </plugins>
     </build>
 </project>

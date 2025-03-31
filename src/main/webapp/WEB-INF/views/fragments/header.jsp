@@ -37,17 +37,7 @@
 	href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
 
 <!-- カスタムCSS -->
-<c:choose>
-	<c:when
-		test="${pageContext.request.serverName == 'localhost' || pageContext.request.serverName == '127.0.0.1'}">
-		<!-- 開発環境 -->
-		<link rel="stylesheet" href="<c:url value='/css/styles.css'/>">
-	</c:when>
-	<c:otherwise>
-		<!-- 本番環境 -->
-		<link rel="stylesheet" href="<c:url value='/css/styles.min.css'/>">
-	</c:otherwise>
-</c:choose>
+<link rel="stylesheet" href="<c:url value='/css/styles.css'/>">
 
 <!-- クリティカル画像のプリロード -->
 <link rel="preload" href="<c:url value='/images/logo.svg'/>" as="image">
