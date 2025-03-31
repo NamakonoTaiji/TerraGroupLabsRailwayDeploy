@@ -53,10 +53,6 @@
 
         <!-- JSP サポート -->
         <dependency>
-            <groupId>org.apache.tomcat.embed</groupId>
-            <artifactId>tomcat-embed-jasper</artifactId>
-        </dependency>
-        <dependency>
             <groupId>jakarta.servlet.jsp.jstl</groupId>
             <artifactId>jakarta.servlet.jsp.jstl-api</artifactId>
         </dependency>
@@ -145,9 +141,6 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-                <configuration>
-                    <packaging>war</packaging>
-                </configuration>
             </plugin>
 
             <!-- JavaScript/CSS Minifier プラグイン -->
@@ -177,7 +170,6 @@
                             <jsEngine>CLOSURE</jsEngine>
                             <skipMerge>false</skipMerge>
                             <skipMinify>false</skipMinify>
-                            <sourceMapType>STANDARD</sourceMapType>
                         </configuration>
                         <goals>
                             <goal>minify</goal>
