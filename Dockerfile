@@ -24,8 +24,7 @@ COPY src ./src
 # ここで minify プラグインをスキップし、テストもスキップします
 # アプリケーションをビルド (WARファイルを作成)
 # メモリ使用量を制限 (-Xmx256m は256MBを指定。環境に応じて調整)
-# コンパイルのみ試す
-RUN MAVEN_OPTS="-Xmx512m" ./mvnw compile -DskipTests
+RUN MAVEN_OPTS="-Xmx512m" ./mvnw package -DskipTests
 
 #-------------------
 # Runtime Stage

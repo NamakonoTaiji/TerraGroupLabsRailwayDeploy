@@ -144,39 +144,7 @@
             </plugin>
 
             <!-- JavaScript/CSS Minifier プラグイン -->
-            <plugin>
-                <groupId>com.samaxes.maven</groupId>
-                <artifactId>minify-maven-plugin</artifactId>
-                <version>1.7.6</version>
-                <executions>
-                    <execution>
-                        <id>default-minify</id>
-                        <phase>prepare-package</phase>
-                        <configuration>
-                            <charset>UTF-8</charset>
-                            <cssSourceDir>static/css</cssSourceDir>
-                            <cssSourceFiles>
-                                <cssSourceFile>styles.css</cssSourceFile>
-                                <!-- 他のCSSファイルがある場合はここに追加 -->
-                            </cssSourceFiles>
-                            <cssFinalFile>styles.min.css</cssFinalFile>
-                            <jsSourceDir>static/js</jsSourceDir>
-                            <jsSourceFiles>
-                                <jsSourceFile>main.js</jsSourceFile>
-                                <!-- 他のJSファイルがある場合はここに追加 -->
-                            </jsSourceFiles>
-                            <jsFinalFile>main.min.js</jsFinalFile>
 
-                            <jsEngine>CLOSURE</jsEngine>
-                            <skipMerge>false</skipMerge>
-                            <skipMinify>false</skipMinify>
-                        </configuration>
-                        <goals>
-                            <goal>minify</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
         </plugins>
     </build>
 </project>
