@@ -161,7 +161,7 @@
                         <phase>prepare-package</phase>
                         <configuration>
                             <charset>UTF-8</charset>
-                            <cssSourceDir>static/css</cssSourceDir>
+                            <cssSourceDir>src/main/resources/static/css/styles.css</cssSourceDir>
                             <cssSourceFiles>
                                 <cssSourceFile>styles.css</cssSourceFile>
                                 <!-- 他のCSSファイルがある場合はここに追加 -->
