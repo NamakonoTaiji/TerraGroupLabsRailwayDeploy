@@ -1,4 +1,5 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
+<%@ include file="/WEB-INF/views/common-taglibs.jsp"%>
 
 <!-- フッター -->
     <footer class="bg-dark text-white py-4 mt-5">
