@@ -167,7 +167,7 @@
                                 <!-- 他のCSSファイルがある場合はここに追加 -->
                             </cssSourceFiles>
                             <cssFinalFile>styles.min.css</cssFinalFile>
-
+                            <skipMissingSourceFiles>true</skipMissingSourceFiles>
                             <jsSourceDir>static/js</jsSourceDir>
                             <jsSourceFiles>
                                 <jsSourceFile>main.js</jsSourceFile>
