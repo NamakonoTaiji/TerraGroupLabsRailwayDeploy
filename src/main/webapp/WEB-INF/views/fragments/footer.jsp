@@ -1,7 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
 
-
 <!-- フッター -->
     <footer class="bg-dark text-white py-4 mt-5">
         <div class="container text-center">
