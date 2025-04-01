@@ -1,5 +1,5 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
-<%@ include file="/WEB-INF/views/common-taglibs.jsp" %>
+<%@ taglib prefix="c" uri="jakarta.tags.core" %>
 
 <c:set var="pageTitle" value="お問い合わせ確認 - TerraGroup Labs" />
 <c:set var="currentPage" value="contact" />
