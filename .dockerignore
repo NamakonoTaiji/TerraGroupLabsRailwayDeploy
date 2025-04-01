@@ -1,0 +1,25 @@
+# .dockerignore
+
+# Gitリポジトリ関連
+.git
+.gitignore
+
+# Maven関連
+target/
+pom.xml.bak
+*.log
+
+# IDE/エディタ設定
+.settings/
+.classpath
+.project
+.vscode/
+*.iml
+
+# OS生成ファイル
+.DS_Store
+Thumbs.db
+
+# ローカル環境設定ファイル (もしあれば)
+application-dev.properties
+application-env.properties
