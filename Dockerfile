@@ -18,7 +18,7 @@ RUN chmod +x ./mvnw
 RUN MAVEN_OPTS="-Xmx512m" ./mvnw package -DskipTests
 
 # ★★★ デバッグ用に追加 ★★★
-RUN ls -la /app/target/
+RUN ls -la /app/
 
 # --- ステージ2: ランタイムステージ ---
 # JRE21のみを含む軽量なイメージを使う
