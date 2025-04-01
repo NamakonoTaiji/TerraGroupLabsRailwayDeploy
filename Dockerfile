@@ -18,9 +18,6 @@ COPY .mvn/ .mvn/
 RUN chmod +x ./mvnw
 RUN MAVEN_OPTS="-Xmx512m" ./mvnw package -DskipTests
 
-# ★★★ デバッグ用に追加 ★★★
-RUN ls -la /app/
-
 # --- ステージ2: ランタイムステージ ---
 # JRE21のみを含む軽量なイメージを使う
 FROM eclipse-temurin:21-jre-jammy 
@@ -29,7 +26,6 @@ FROM eclipse-temurin:21-jre-jammy
 WORKDIR /app
 
 # ビルドステージ(builder)から、ビルドされたWARファイルだけをコピー
-# ↓ ここがマルチステージビルドの重要なポイント！
 COPY --from=builder /app/target/*.war app.war
 
 # アプリケーションが使用するポートを公開
