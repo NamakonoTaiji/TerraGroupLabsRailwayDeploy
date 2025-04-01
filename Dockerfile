@@ -14,10 +14,11 @@ COPY src ./src
 # Mavenを使ってアプリケーションをビルド（.warファイルを作成）
 COPY mvnw .
 COPY .mvn/ .mvn/
-# ↓ あなたのトラブルシューティングでも使われていましたね！
 RUN chmod +x ./mvnw
-# mvnwを使う場合
 RUN MAVEN_OPTS="-Xmx512m" ./mvnw package -DskipTests
+
+# ★★★ デバッグ用に追加 ★★★
+RUN ls -la /app/target/
 
 # --- ステージ2: ランタイムステージ ---
 # JRE21のみを含む軽量なイメージを使う
