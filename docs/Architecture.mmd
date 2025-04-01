@@ -1,0 +1,85 @@
+graph TD
+
+    %% アーキテクチャ図 (TerraGroupLabsLandingPage)
+    %% スタイル適用版 - 行内コメント排除 - ラベル内括弧排除 - 文字色修正
+
+    subgraph User_Side [ユーザー側]
+        User[ユーザー<br>ブラウザ]
+    end
+
+    subgraph Railway_Platform [Railway プラットフォーム]
+        %% このサブグラフ内は上から下へレイアウト
+        direction TB
+        %% ルーター/ロードバランサー
+        RW_Router(Railway ルーター / LB)
+        subgraph Docker_Container [Docker コンテナ]
+            %% Tomcatとアプリの関係を示す
+            Tomcat[組み込み Tomcat] --- SpringBoot_App[Spring Boot アプリ]
+        end
+        MySQL_DB[(MySQL データベース)]
+        %% 環境変数の定義 (括弧を削除)
+        Env_Vars[環境変数<br>DB接続情報 APIキー等]
+    end
+
+    subgraph SpringBoot_App_Internal [Spring Boot アプリ内部]
+        %% このサブグラフ内は上から下へレイアウト
+        direction TB
+        %% 各レイヤーの定義 (括弧を削除)
+        Controller[Controller レイヤー<br>Controller]
+        Service[Service レイヤー<br>Service]
+        Repository[Repository レイヤー<br>JPA]
+        Security[Spring Security]
+        View[View レイヤー<br>JSP JSTL]
+        Config[Configuration]
+        ViewResolver{ViewResolver}
+    end
+
+    subgraph External_Services [外部サービス]
+        %% このサブグラフ内は上から下へレイアウト
+        direction TB
+        Recaptcha[Google reCAPTCHA]
+        EmailServer[Email サーバー<br>SMTP]
+    end
+
+    %% --- Flow / Interactions ---
+    User -- HTTP Request --> RW_Router
+    RW_Router -- Forwards Request --> Tomcat
+
+    %% Tomcat/Spring Boot App Internal Interactions
+    Tomcat -- Request via DispatcherServlet --> Controller
+    Controller --> Service
+    Service --> Repository
+    Repository -- SQL --> MySQL_DB
+
+    Service -- Calls --> Recaptcha
+    Service -- Sends Email --> EmailServer
+
+    %% View Resolution Path
+    Controller -- Returns View Name --> ViewResolver
+    ViewResolver -- Finds JSP Path --> View
+    %% Rendered view goes back via Tomcat
+    View -- Generates HTML --> Tomcat
+
+    Tomcat -- HTTP Response --> RW_Router
+    RW_Router -- HTTP Response --> User
+
+    %% Configuration Injection
+    Env_Vars -.-> SpringBoot_App
+
+    %% Simplified Security Interaction
+    Security -- Secures --> Controller
+
+    %% --- スタイル定義 ---
+    %% 文字色を黒に指定 (color:black を追加)
+    classDef user fill:#D6EAF8,stroke:#2E86C1,stroke-width:2px,color:black;
+    classDef railway fill:#EAECEE,stroke:#566573,stroke-width:2px,color:black;
+    classDef docker fill:#FADBD8,stroke:#C0392B,stroke-width:1px,color:black;
+    classDef spring fill:#D5F5E3,stroke:#28B463,stroke-width:1px,color:black;
+    classDef external fill:#FEF9E7,stroke:#F39C12,stroke-width:1px,color:black;
+
+    %% --- スタイル適用 ---
+    class User User_Side,User;
+    class Railway_Platform,MySQL_DB,Env_Vars,RW_Router railway;
+    class Docker_Container,Tomcat,SpringBoot_App docker;
+    class SpringBoot_App_Internal,Controller,Service,Repository,Security,View,Config,ViewResolver spring;
+    class External_Services,Recaptcha,EmailServer external;
