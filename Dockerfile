@@ -12,6 +12,8 @@ RUN mvn dependency:go-offline -B
 COPY src ./src
 
 # Mavenを使ってアプリケーションをビルド（.warファイルを作成）
+COPY mvnw .
+COPY .mvn/ .mvn/
 # ↓ あなたのトラブルシューティングでも使われていましたね！
 RUN chmod +x ./mvnw
 RUN ./mvnw package -DskipTests MAVEN_OPTS="-Xmx512m" # mvnwを使う場合
