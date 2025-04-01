@@ -3,7 +3,6 @@ package com.terragrouplabs.controller;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -33,9 +32,9 @@ public class ContactController {
 	private final RecaptchaService recaptchaService;
 
 	// コンストラクタインジェクションに変更
-	public ContactController(ContactMessageService contactMessageService, 
-							EmailService emailService, 
-							RecaptchaService recaptchaService) {
+	public ContactController(ContactMessageService contactMessageService,
+			EmailService emailService,
+			RecaptchaService recaptchaService) {
 		this.contactMessageService = contactMessageService;
 		this.emailService = emailService;
 		this.recaptchaService = recaptchaService;
@@ -64,16 +63,16 @@ public class ContactController {
 					bindingResult);
 			redirectAttributes.addFlashAttribute("contactMessage", contactMessage);
 			redirectAttributes.addFlashAttribute("hasError", true);
-			
+
 			return "redirect:/?formError=true#contact";
 		}
-		
+
 		// reCAPTCHA検証
 		boolean verified = recaptchaService.verifyRecaptcha(recaptchaResponse);
 		if (!verified) {
 			// reCAPTCHA検証失敗の場合
 			bindingResult.reject("recaptcha", "reCAPTCHA検証に失敗しました。ロボットではないことを確認してください。");
-			
+
 			// エラー情報とフォームデータを保持
 			redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.contactMessage",
 					bindingResult);
@@ -102,7 +101,7 @@ public class ContactController {
 
 		try {
 			logger.info("お問い合わせフォームからの送信処理を開始: {}", contactMessage.getEmail());
-			
+
 			// フォームから受け取ったデータを保存
 			ContactMessage savedMessage = contactMessageService.saveMessage(contactMessage);
 			logger.info("お問い合わせデータの保存が完了しました: ID={}", savedMessage.getId());

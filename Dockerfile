@@ -16,7 +16,8 @@ COPY mvnw .
 COPY .mvn/ .mvn/
 # ↓ あなたのトラブルシューティングでも使われていましたね！
 RUN chmod +x ./mvnw
-RUN ./mvnw package -DskipTests MAVEN_OPTS="-Xmx512m" # mvnwを使う場合
+# mvnwを使う場合
+RUN ./mvnw package -DskipTests MAVEN_OPTS="-Xmx512m" 
 
 # --- ステージ2: ランタイムステージ ---
 # JRE21のみを含む軽量なイメージを使う
