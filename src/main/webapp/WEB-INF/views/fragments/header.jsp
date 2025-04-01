@@ -45,14 +45,14 @@
 <link rel="preload" href="<c:url value='/images/webp/hero-bg.webp'/>"
 	as="image" type="image/webp" media="(min-width: 768px)">
 <!-- JPEG形式のフォールバック -->
-<link rel="preload" href="<c:url value='/images/hero-bg.jpg'/>"
+<link rel="preload" href="<c:url value='/images/jpg/hero-bg.jpg'/>"
 	as="image" type="image/jpeg" media="(min-width: 768px)">
 <!-- WebP形式のプリロード -->
 <link rel="preload"
 	href="<c:url value='/images/webp/hero-bg-mobile.webp'/>" as="image" type="image/webp"
 	media="(max-width: 767px)">
 <!-- JPEG形式のフォールバック -->
-<link rel="preload" href="<c:url value='/images/hero-bg-mobile.jpg'/>"
+<link rel="preload" href="<c:url value='/images/jpg/hero-bg-mobile.jpg'/>"
 	as="image" type="image/jpeg" media="(min-width: 768px)">
 
 <!-- SEO メタタグ -->
