@@ -70,7 +70,7 @@ public class SecurityConfig {
                         // 通常、本番環境では .anyRequest().authenticated() などとして、
                         // 未定義のURLへのアクセスは少なくとも認証が必要とする場合が多いですが、
                         // このランディングページでは意図的にすべて許可しているようです。
-                        .anyRequest().authenticated())
+                        .anyRequest().permitAll())
                 // formLogin: フォームベース認証の設定を開始します。
                 .formLogin((form) -> form
                         // loginPage("/login"): カスタムログインページのURLを指定します。
