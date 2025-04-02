@@ -52,7 +52,6 @@
         </dependency>
 
         <!-- JSP サポート -->
-
         <dependency>
             <groupId>jakarta.servlet.jsp.jstl</groupId>
             <artifactId>jakarta.servlet.jsp.jstl-api</artifactId>
@@ -80,7 +79,12 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
-
+        <!-- テスト用H2組み込みデータベース -->
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <scope>test</scope>
+        </dependency>
         <!-- Tomcat を provided スコープで指定（外部サーバーで動作させる場合） -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
