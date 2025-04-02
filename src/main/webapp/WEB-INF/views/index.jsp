@@ -218,12 +218,6 @@
 							<h3>エネルギー技術</h3>
 							<p>次世代のクリーンエネルギー技術で持続可能な社会の実現を目指します。核融合研究「Project
 								Helios」や次世代太陽光パネルなど、革新的なエネルギーソリューションを開発しています。</p>
-							<div class="mt-auto pt-3">
-								<a href="<c:url value='/service/energy'/>"
-									class="btn terra-btn-outline"> 詳細を見る <i
-									class="bi bi-arrow-right ms-2"></i>
-								</a>
-							</div>
 						</div>
 					</div>
 				</div>
@@ -243,12 +237,6 @@
 							</div>
 							<h3>防衛システム</h3>
 							<p>高度なセキュリティと防衛技術で社会の安全を守ります。無人戦闘システム「TG-Sentinel」や特殊装備の開発を通じて、最先端の防衛ソリューションを提供しています。</p>
-							<div class="mt-auto pt-3">
-								<a href="<c:url value='/service/defense'/>"
-									class="btn terra-btn-outline"> 詳細を見る <i
-									class="bi bi-arrow-right ms-2"></i>
-								</a>
-							</div>
 						</div>
 					</div>
 				</div>
@@ -268,12 +256,6 @@
 							</div>
 							<h3>バイオテクノロジー</h3>
 							<p>生命科学の革新的研究により、人類の健康と環境の未来を切り拓きます。遺伝子治療「GeneLock」や極限環境耐性生物の研究など、最先端のバイオテクノロジーを探求しています。</p>
-							<div class="mt-auto pt-3">
-								<a href="<c:url value='/service/biotech'/>"
-									class="btn terra-btn-outline"> 詳細を見る <i
-									class="bi bi-arrow-right ms-2"></i>
-								</a>
-							</div>
 						</div>
 					</div>
 				</div>
