@@ -2,7 +2,6 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
 
-<c:set var="pageTitle" value="地球の未来をテクノロジーで創造する" />
 <c:set var="currentPage" value="home" />
 <c:set var="additionalHeadContent">
 </c:set>
