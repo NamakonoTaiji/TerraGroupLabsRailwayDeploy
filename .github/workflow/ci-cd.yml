@@ -1,0 +1,48 @@
+# ワークフローの名前（GitHub ActionsのUIなどに表示されます）
+name: Java CI with Maven
+
+# ワークフローが実行されるトリガー（きっかけ）を設定します
+on:
+  # 1. master または Railway-Deploy-Testing ブランチに push された時
+  push:
+    branches: [ "master", "Railway-Deploy-Testing" ]
+  # 2. master または Railway-Deploy-Testing ブランチに対する pull request が作成・更新された時
+  pull_request:
+    branches: [ "master", "Railway-Deploy-Testing" ]
+
+# 実行されるジョブを定義します（ここでは 'build' という名前のジョブを一つ定義）
+jobs:
+  build:
+    # ジョブを実行する環境を指定します（GitHubが提供する最新のUbuntu環境を使用）
+    runs-on: ubuntu-latest
+
+    # ジョブ内で実行されるステップ（処理）を定義します
+    steps:
+      # ステップ1: リポジトリのコードをチェックアウト（取得）します
+      # uses: は、他の人が作成したアクション（定型処理）を利用することを示します
+      - name: Checkout repository
+        uses: actions/checkout@v4 # v4 はアクションのバージョン
+
+      # ステップ2: 指定したJavaバージョン(JDK 21)をセットアップします
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'        # Javaのバージョンを指定
+          distribution: 'temurin'   # JDKのディストリビューションを指定 (Temurinが一般的)
+          cache: maven              # Mavenの依存関係をキャッシュしてビルドを高速化
+
+      # ステップ3: Mavenを使ってビルドとテストを実行します
+      # 'mvn clean verify' は、プロジェクトのクリーン、コンパイル、テスト実行、パッケージング(WAR作成)を一括で行うコマンドです
+      - name: Build and test with Maven
+        run: mvn clean verify
+
+      # --- ここから下はオプションのステップ ---
+
+      # ステップ4 (オプション): ビルド成果物（WARファイル）をアップロードします
+      # これにより、ワークフローの実行結果としてWARファイルを確認・ダウンロードできます
+      # CDプロセスでこの成果物を使うことも可能です
+      # - name: Upload WAR artifact
+      #   uses: actions/upload-artifact@v4
+      #   with:
+      #     name: terra-app-war  # アップロードする成果物の名前
+      #     path: target/*.war    # アップロードするファイルのパス (Mavenのデフォルト出力先)

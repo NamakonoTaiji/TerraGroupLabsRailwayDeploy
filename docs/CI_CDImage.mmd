@@ -1,0 +1,30 @@
+graph LR
+    A[開発者がコード変更を<br>GitHubにPush] --> B{CIサーバー<br>例: GitHub Actions};
+    B -- 1.コード取得 --> C[ビルド<br>mvn package];
+    C -- 成功 --> D[テスト実行<br>mvn test];
+    D -- 成功 --> E{CDプロセス};
+    E -- 2.Dockerイメージ<br>ビルド --> F[Docker<br>イメージ];
+    F -- 3.(オプション)<br>ステージング環境へ<br>自動デプロイ --> G[ステージング環境<br>テスト用];
+    G -- 手動承認 or<br>自動テスト --> H[本番環境へ<br>デプロイ<br>例: Railway];
+
+    C -- 失敗 --> I[開発者に<br>フィードバック];
+    D -- 失敗 --> I;
+
+    subgraph CI [継続的インテグレーション]
+        B
+        C
+        D
+    end
+
+    subgraph CD [継続的デリバリー/デプロイ]
+        E
+        F
+        G
+        H
+    end
+
+    %% スタイルの定義
+    classDef ci fill:#D6EAF8,stroke:#2E86C1,stroke-width:2px,color:black;
+    classDef cd fill:#D6EAF8,stroke:#2E86C1,stroke-width:2px,color:black;
+    class CI ci;
+    class CD cd;
