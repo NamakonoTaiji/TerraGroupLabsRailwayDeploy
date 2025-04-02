@@ -34,7 +34,7 @@ jobs:
       # ステップ3: Mavenを使ってビルドとテストを実行します
       # 'mvn clean verify' は、プロジェクトのクリーン、コンパイル、テスト実行、パッケージング(WAR作成)を一括で行うコマンドです
       - name: Build and test with Maven
-        run: mvn clean verify
+        run: mvn clean verify -e
 
       # --- ここから下はオプションのステップ ---
 
