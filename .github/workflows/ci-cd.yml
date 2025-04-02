@@ -5,10 +5,10 @@ name: Java CI with Maven
 on:
   # 1. master または Railway-Deploy-Testing ブランチに push された時
   push:
-    branches: [ "master", "Railway-Deploy-Testing" ]
+    branches: ["master", "Railway-Deploy-Testing"]
   # 2. master または Railway-Deploy-Testing ブランチに対する pull request が作成・更新された時
   pull_request:
-    branches: [ "master", "Railway-Deploy-Testing" ]
+    branches: ["master", "Railway-Deploy-Testing"]
 
 # 実行されるジョブを定義します（ここでは 'build' という名前のジョブを一つ定義）
 jobs:
@@ -27,14 +27,27 @@ jobs:
       - name: Set up JDK 21
         uses: actions/setup-java@v4
         with:
-          java-version: '21'        # Javaのバージョンを指定
-          distribution: 'temurin'   # JDKのディストリビューションを指定 (Temurinが一般的)
-          cache: maven              # Mavenの依存関係をキャッシュしてビルドを高速化
+          java-version: "21" # Javaのバージョンを指定
+          distribution: "temurin" # JDKのディストリビューションを指定 (Temurinが一般的)
+          cache: maven # Mavenの依存関係をキャッシュしてビルドを高速化
 
       # ステップ3: Mavenを使ってビルドとテストを実行します
       # 'mvn clean verify' は、プロジェクトのクリーン、コンパイル、テスト実行、パッケージング(WAR作成)を一括で行うコマンドです
       - name: Build and test with Maven
-        run: mvn clean verify -e
+        run: mvn clean verify
+        env:
+          # 必須の管理者情報 (ダミー値)
+          ADMIN_USERNAME: testadmin
+          ADMIN_PASSWORD: testpassword
+          # reCAPTCHA 関連 (テストでは使わないのでダミー値)
+          RECAPTCHA_SITE_KEY: dummy_site_key_for_test
+          RECAPTCHA_SECRET_KEY: dummy_secret_key_for_test
+          # メール関連 (テストでは使わないのでダミー値、または mail auto-config を無効化)
+          MAIL_HOST: localhost
+          MAIL_PORT: 25 # 標準的なダミーポート
+          MAIL_USERNAME: dummyuser
+          MAIL_PASSWORD: dummypass
+          # SPRING_PROFILES_ACTIVE: test # 通常 @ActiveProfiles("test") で設定されるので不要
 
       # --- ここから下はオプションのステップ ---
 
