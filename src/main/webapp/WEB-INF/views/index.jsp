@@ -7,7 +7,7 @@
 <c:set var="additionalHeadContent">
 </c:set>
 
-<link rel="stylesheet" href="/css/styles.css">
+<jsp:include page="fragments/header.jsp" />
 
 <!-- ヒーローセクション -->
 <header class="hero-section">
@@ -365,4 +365,4 @@
 		</div>
 	</div>
 </section>
-<script src="/js/main.js"></script>
+<jsp:include page="fragments/footer.jsp" />

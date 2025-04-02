@@ -55,8 +55,9 @@ public class SecurityConfig {
                 http
                                 // authorizeHttpRequests: HTTPリクエストに対する認可設定を開始します。
                                 .authorizeHttpRequests((requests) -> requests
-                                                // FORWARD ディスパッチタイプのすべてのリクエストを許可するルールを追加
-                                                .dispatcherTypeMatchers(DispatcherType.FORWARD).permitAll()
+                                                // ★★★ FORWARD に加えて INCLUDE ディスパッチタイプも許可する ★★★
+                                                .dispatcherTypeMatchers(DispatcherType.FORWARD, DispatcherType.INCLUDE)
+                                                .permitAll()
                                                 // requestMatchers(...).permitAll():
                                                 // 指定されたURLパターンに対するリクエストをすべて許可します（認証不要）。
                                                 // 静的リソース（CSS, JS, 画像）、トップページ、アバウトページ、サービスページ、
