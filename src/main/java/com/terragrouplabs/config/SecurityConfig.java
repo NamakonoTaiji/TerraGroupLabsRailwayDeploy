@@ -66,7 +66,7 @@ public class SecurityConfig {
                                                                 "/", "/index", "/about", "/service",
                                                                 "/contact/**", "/thankyou", "/css/**",
                                                                 "/js/**", "/images/**", "/login", "/error",
-                                                                "/favicon.ico", "/fragments/**")
+                                                                "/favicon.ico")
                                                 .permitAll()
                                                 // requestMatchers("/admin/**").hasRole("ADMIN"): "/admin/"
                                                 // で始まるURLパターンへのアクセスは、

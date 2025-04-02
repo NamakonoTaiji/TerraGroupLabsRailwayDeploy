@@ -6,6 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<c:set var="pageTitle" value="地球の未来をテクノロジーで創造する" />
 <title>${pageTitle}-TerraGroupLabs</title>
 
 <!-- ファビコン設定を追加 -->
