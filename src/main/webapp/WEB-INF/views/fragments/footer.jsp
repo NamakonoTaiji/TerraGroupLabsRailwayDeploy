@@ -39,7 +39,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     
     <!-- メインのJavaScriptファイル -->
-    <script src="<c:url value='/js/main.js'/>"></script>
+    <script src="/js/main.js"></script>
     
     <!-- Google アナリティクス -->
     <c:if test="${not empty googleAnalyticsId}">
