@@ -37,7 +37,7 @@
 	href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
 
 <!-- カスタムCSS -->
-<link rel="stylesheet" href="/css/styles.css">
+<link rel="stylesheet" href="<c:url value='/css/styles.css'/>">
 
 <!-- クリティカル画像のプリロード -->
 <link rel="preload" href="<c:url value='/images/logo.svg'/>" as="image">
