@@ -2,7 +2,7 @@
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
 <%@ taglib prefix="fn" uri="jakarta.tags.functions" %>
 
-<jsp:include page="fragments/header.jsp" />
+<jsp:include page="/WEB-INF/views/fragments/header.jsp" />
 
 	<!-- メインコンテンツ -->
 	<div class="container mt-5 pt-5">
@@ -47,4 +47,4 @@
 			</div>
 		</div>
 	</div>
-    <jsp:include page="fragments/footer.jsp" />
+    <jsp:include page="/WEB-INF/views/fragments/footer.jsp" />
