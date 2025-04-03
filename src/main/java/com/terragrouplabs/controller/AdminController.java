@@ -18,6 +18,12 @@ public class AdminController {
         this.contactRepository = contactRepository;
     }
 
+    @GetMapping
+    public String redirectToMessages() {
+        // /admin へのアクセスを /admin/messages へリダイレクトさせる
+        return "redirect:/admin/messages";
+    }
+
     @GetMapping("/messages")
     public String listMessages(Model model) { // Model を引数に追加
         model.addAttribute("messages", contactRepository.findAll());
