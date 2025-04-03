@@ -2,8 +2,6 @@
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
 <%@ taglib prefix="fn" uri="jakarta.tags.functions" %>
 
-<c:set currentPage="admin" />
-
 <jsp:include page="fragments/header.jsp" />
 
 	<!-- メインコンテンツ -->
@@ -39,6 +37,11 @@
                                 </td>
                             </tr>
                         </c:forEach>
+                        <c:if test="${empty messages}">
+                            <tr>
+                                <td colspan="5">メッセージはまだありません。</td>
+                            </tr>
+                        </c:if>
                     </tbody>
 				</table>
 			</div>
