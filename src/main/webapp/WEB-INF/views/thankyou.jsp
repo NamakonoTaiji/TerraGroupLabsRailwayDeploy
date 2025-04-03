@@ -15,8 +15,7 @@
                     <div class="card border-0 shadow-sm">
                         <div class="card-body text-center p-5">
                             <div class="mb-4">
-                                <i class="bi bi-check-circle-fill text-success"
-                                    style="font-size: 5rem;"></i>
+                                <i class="bi bi-check-circle-fill text-success icon-size-5rem"></i>
                             </div>
                             <h1 class="display-5 mb-3">お問い合わせありがとうございました</h1>
                             <p class="lead mb-4">ご入力いただいた内容は正常に送信されました。担当者より順次ご連絡いたします。</p>

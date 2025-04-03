@@ -65,8 +65,7 @@
     
     <!-- 企業の展望、理念を表示するセクション -->
     <section class="section position-relative">
-        <div class="bg-image position-absolute w-100 h-100"
-            style="background: linear-gradient(rgba(0, 30, 55, 0.8), rgba(0, 30, 55, 0.9)), url('/images/webp/tech-vision-bg.webp'); background-size: cover; background-position: center;"></div>
+        <div class="bg-image position-absolute w-100 h-100 tech-vision-background"></div>
         <div class="container position-relative text-white">
             <div class="row">
                 <div class="col-lg-6 pt-3">
@@ -78,9 +77,7 @@
                         Labsは「科学の力で世界の課題を解決する」という信念のもと、革新的な技術開発に取り組んでいます。</p>
     
                     <div class="d-flex align-items-center mb-4">
-                        <div
-                            class="icon-box me-3 bg-primary text-white rounded-circle d-flex align-items-center justify-content-center"
-                            style="width: 50px; height: 50px;">
+                        <div class="icon-box me-3 bg-primary text-white rounded-circle d-flex align-items-center justify-content-center icon-box-fixed-size">
                             <i class="bi bi-lightbulb-fill"></i>
                         </div>
                         <div>
@@ -90,9 +87,7 @@
                     </div>
     
                     <div class="d-flex align-items-center mb-4">
-                        <div
-                            class="icon-box me-3 bg-primary text-white rounded-circle d-flex align-items-center justify-content-center"
-                            style="width: 50px; height: 50px;">
+                        <div class="icon-box me-3 bg-primary text-white rounded-circle d-flex align-items-center justify-content-center icon-box-fixed-size">
                             <i class="bi bi-globe"></i>
                         </div>
                         <div>
@@ -102,9 +97,7 @@
                     </div>
     
                     <div class="d-flex align-items-center">
-                        <div
-                            class="icon-box me-3 bg-primary text-white rounded-circle d-flex align-items-center justify-content-center"
-                            style="width: 50px; height: 50px;">
+                        <div class="icon-box me-3 bg-primary text-white rounded-circle d-flex align-items-center justify-content-center icon-box-fixed-size">
                             <i class="bi bi-hand-thumbs-up"></i>
                         </div>
                         <div>
