@@ -55,7 +55,7 @@ public class SecurityConfig {
         http
                 // authorizeHttpRequests: HTTPリクエストに対する認可設定を開始します。
                 .authorizeHttpRequests((requests) -> requests
-                        // ★★★ FORWARD に加えて INCLUDE ディスパッチタイプも許可する ★★★
+                        // FORWARDとINCLUDEディスパッチタイプを許可する
                         .dispatcherTypeMatchers(DispatcherType.FORWARD, DispatcherType.INCLUDE)
                         .permitAll()
                         // requestMatchers(...).permitAll():
