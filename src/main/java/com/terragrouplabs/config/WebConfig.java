@@ -70,8 +70,8 @@ public class WebConfig implements WebMvcConfigurer {
                             "default-src 'self'; " +
                                     "script-src 'self' https://cdn.jsdelivr.net https://www.google.com https://www.gstatic.com; "
                                     +
-                                    "style-src 'self' https://cdn.jsdelivr.net https://fonts.googleapis.com 'unsafe-inline'; "
-                                    + // 'unsafe-inline' は必要か確認推奨
+                                    "style-src 'self' https://cdn.jsdelivr.net https://fonts.googleapis.com; "
+                                    +
                                     "img-src 'self' data: https://www.google.com https://www.gstatic.com; " +
                                     "font-src 'self' https://cdn.jsdelivr.net https://fonts.gstatic.com data:; " +
                                     "frame-src 'self' https://www.google.com https://recaptcha.google.com; " + // reCAPTCHA用
