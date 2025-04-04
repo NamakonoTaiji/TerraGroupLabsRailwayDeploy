@@ -5,26 +5,22 @@ package com.terragrouplabs.config;
 // 必要なクラスをインポートします。
 // Bean: Spring IoCコンテナに管理されるオブジェクト（Bean）を定義することを示すアノテーション。
 import org.springframework.context.annotation.Bean;
-// Configuration: このクラスがSpringの設定クラスであることを示すアノテーション。
-// Springは起動時にこのクラスを読み込み、定義されたBeanを生成・管理します。
 import org.springframework.context.annotation.Configuration;
-// InternalResourceViewResolver: JSPなどのWebアプリケーション内のビューリソースを解決するためのクラス。
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 /**
  * Spring MVCに関する設定を行うクラスです。
- * 
+ *
  * @Configuration アノテーションが付いているため、Spring Bootが起動時にこのクラスを読み込み、
- *                アプリケーションの設定情報として利用します。
+ * アプリケーションの設定情報として利用します。
  */
 @Configuration
 public class MvcConfig {
 
     /**
-     * ViewResolverのBean定義です。
-     * ViewResolverは、Controllerが返したビュー名（文字列）を、
+     * ViewResolverのBean定義です。 ViewResolverは、Controllerが返したビュー名（文字列）を、
      * 実際に表示するビューファイル（この場合はJSPファイル）のパスに変換する役割を持ちます。
-     * 
+     *
      * @Bean アノテーションが付いているメソッドは、その戻り値をSpring IoCコンテナが管理するBeanとして登録します。
      *
      * @return 設定済みのInternalResourceViewResolverインスタンス
@@ -51,7 +47,6 @@ public class MvcConfig {
         // Springコンテナで管理されている全てのBeanを、リクエスト属性としてJSPからアクセス可能にするかどうかを設定します。（デフォルトはfalse）
         // trueにすると、JSP内で `${beanName.someProperty}` のようにBeanのプロパティに直接アクセスできますが、
         // 意図しないBeanが公開される可能性もあるため、通常はfalseのままか、必要なBeanだけをModelに追加する方法が推奨されます。
-        // このプロジェクトではtrueになっています。
         resolver.setExposeContextBeansAsAttributes(true);
 
         // setExposePathVariables(true):
