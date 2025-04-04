@@ -32,10 +32,10 @@
                             </div>
 
                             <div class="d-flex justify-content-between mt-4">
-                                <!-- CSRFトークンを追加 -->
-                                <input type="hidden" name="${_csrf.parameterName}"
-                                    value="${_csrf.token}" />
                                 <form action="<c:url value='/contact/back'/>" method="post">
+                                    <!-- CSRFトークンを追加 -->
+                                    <input type="hidden" name="${_csrf.parameterName}"
+                                        value="${_csrf.token}" />
                                     <button type="submit" class="btn btn-secondary">修正する</button>
                                 </form>
 
