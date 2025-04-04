@@ -38,3 +38,6 @@ build/
 # 機密情報を含むファイル
 src/main/resources/application-dev.properties
 src/main/resources/application-env.properties
+
+# 不要なファイル
+appealpoint.txt

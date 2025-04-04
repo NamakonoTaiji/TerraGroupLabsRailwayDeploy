@@ -1,186 +1,167 @@
-// このファイルが属するパッケージ名を宣言します。
 package com.terragrouplabs.config;
 
+// --- Spring Framework Imports ---
 import org.springframework.beans.factory.annotation.Value;
-// 必要なクラスをインポートします。
-import org.springframework.context.annotation.Bean; // Bean: Spring IoCコンテナに管理されるオブジェクト（Bean）を定義することを示すアノテーション。
-import org.springframework.context.annotation.Configuration; // Configuration: このクラスがSpringの設定クラスであることを示すアノテーション。
-import org.springframework.security.config.annotation.web.builders.HttpSecurity; // HttpSecurity: HTTPベースのセキュリティ設定を構成するためのクラス。
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity; // EnableWebSecurity: Spring SecurityのWebセキュリティサポートを有効にし、基本的な設定を提供するためのアノテーション。
-import org.springframework.security.core.userdetails.UserDetails; // UserDetails: ユーザーのコア情報を表すインターフェース（ユーザー名、パスワード、権限など）。
-import org.springframework.security.core.userdetails.UserDetailsService; // UserDetailsService: UserDetailsをロードするためのインターフェース。
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder; // BCryptPasswordEncoder: BCryptアルゴリズムを使用してパスワードをハッシュ化（エンコード）するためのPasswordEncoder実装。
-import org.springframework.security.crypto.password.PasswordEncoder; // PasswordEncoder: パスワードのエンコードと検証を行うためのインターフェース。
-import org.springframework.security.provisioning.InMemoryUserDetailsManager; // InMemoryUserDetailsManager: ユーザー情報をメモリ内に保持するシンプルなUserDetailsService実装。テストやデモ向き。
-import org.springframework.security.web.SecurityFilterChain; // SecurityFilterChain: HTTPリクエストに対するセキュリティフィルターのチェーンを定義するインターフェース。
-import org.springframework.security.web.header.writers.XXssProtectionHeaderWriter; // XXssProtectionHeaderWriter: レガシーなX-XSS-Protectionヘッダーを設定するためのクラス。
-import jakarta.servlet.DispatcherType; // DispatcherType: サーブレットのディスパッチャータイプを表す列挙型（リクエスト、フォワードなど）。
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.lang.NonNull; // Nullability アノテーションを追加
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.core.userdetails.User; // User クラスをインポート
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.header.writers.ReferrerPolicyHeaderWriter; // ヘッダー設定用
+import org.springframework.security.web.header.writers.StaticHeadersWriter;     // ヘッダー設定用
+import org.springframework.security.web.header.writers.XXssProtectionHeaderWriter; // ヘッダー設定用
+
+import jakarta.servlet.DispatcherType;
 
 /**
- * Spring Securityの設定を行うクラスです。
- * 
- * @Configuration: このクラスが設定クラスであることを示します。
- * @EnableWebSecurity: Spring SecurityのWebセキュリティ機能を有効にします。
- *                     これにより、基本的なセキュリティ設定が適用され、
- *                     HttpSecurityを使ったカスタマイズが可能になります。
+ * Spring Security の設定クラス。 Webセキュリティ機能の有効化と、HTTPリクエストに対するセキュリティルールの定義を行います。
  */
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
 
+    // 現在アクティブな Spring プロファイル (`dev` または `prod` など) を保持
+    @Value("${spring.profiles.active:dev}")
+    private String activeProfile;
+
+    // 環境変数から管理者ユーザー名を取得 (デフォルト: "admin")
+    @Value("${ADMIN_USERNAME:admin}") // デフォルト値をコロンの後に追加
+    private String adminUsername;
+
+    // 環境変数から管理者パスワードを取得 (デフォルト: "password")
+    // 注意: 本番環境では必ず環境変数を設定し、デフォルト値に頼らないこと
+    @Value("${ADMIN_PASSWORD:password}") // デフォルト値をコロンの後に追加
+    private String adminPassword;
+
     /**
-     * パスワードエンコーダーのBean定義です。
-     * パスワードを安全に保存・比較するために使用されます。
-     * 
-     * @Bean: このメソッドが返すオブジェクトをBeanとしてコンテナに登録します。
-     * @return BCryptPasswordEncoderのインスタンス。BCryptは現在推奨される強力なハッシュアルゴリズムです。
+     * パスワードのハッシュ化に使用する PasswordEncoder (BCrypt) の Bean を定義します。
+     *
+     * @return PasswordEncoder の実装インスタンス
      */
     @Bean
     public PasswordEncoder passwordEncoder() {
-        // BCryptPasswordEncoderのインスタンスを生成して返します。
-        // これにより、パスワードはハッシュ化されて保存され、元のパスワードを復元することはできません。
         return new BCryptPasswordEncoder();
     }
 
     /**
-     * セキュリティフィルターチェーンのBean定義です。
-     * HTTPリクエストに対するセキュリティルール（認証、認可、ヘッダー設定など）をここで構成します。
-     * 
-     * @param http HttpSecurityオブジェクト。セキュリティ設定を fluent API (メソッドチェーン) で記述するために使います。
-     * @return 設定済みのSecurityFilterChainオブジェクト。
-     * @throws Exception 設定中に発生する可能性のある例外。
+     * アプリケーションのメインとなるセキュリティフィルターチェーンを定義します。
+     * ここで認証・認可ルールや、各種セキュリティ機能、ヘッダー設定などを一元的に構成します。
+     *
+     * @param http HttpSecurity 設定オブジェクト (Spring が注入)
+     * @return 設定済みの SecurityFilterChain
+     * @throws Exception 設定中の例外
      */
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http
-                // authorizeHttpRequests: HTTPリクエストに対する認可設定を開始します。
-                .authorizeHttpRequests((requests) -> requests
-                        // FORWARDとINCLUDEディスパッチタイプを許可する
-                        .dispatcherTypeMatchers(DispatcherType.FORWARD, DispatcherType.INCLUDE)
-                        .permitAll()
-                        // requestMatchers(...).permitAll():
-                        // 指定されたURLパターンに対するリクエストをすべて許可します（認証不要）。
-                        // 静的リソース（CSS, JS, 画像）、トップページ、アバウトページ、サービスページ、
-                        // お問い合わせ関連ページ、ログインページ、エラーページへのアクセスを許可しています。
-                        .requestMatchers(
-                                "/", "/index", "/about", "/service",
-                                "/contact/**", "/thankyou", "/css/**",
-                                "/js/**", "/images/**", "/login", "/error",
-                                "/favicon.ico")
-                        .permitAll()
-                        // requestMatchers("/admin/**").hasRole("ADMIN"): "/admin/"
-                        // で始まるURLパターンへのアクセスは、
-                        // "ADMIN" ロールを持つユーザーのみに許可します。
-                        // 注意: hasRoleは自動的に "ROLE_" プレフィックスを期待するため、実際には "ROLE_ADMIN" 権限が必要になります。
-                        .requestMatchers("/admin/**").hasRole("ADMIN")
-                        // anyRequest().permitAll(): 上記のルールにマッチしない、その他のすべてのリクエストを許可します。
-                        // 通常、本番環境では .anyRequest().authenticated() などとして、
-                        // 未定義のURLへのアクセスは少なくとも認証が必要とする場合が多いですが、
-                        // このランディングページでは意図的にすべて許可しているようです。
-                        .anyRequest().authenticated())
-                // formLogin: フォームベース認証の設定を開始します。
-                .formLogin((form) -> form
-                        // loginPage("/login"): カスタムログインページのURLを指定します。
-                        .loginPage("/login")
-                        // loginProcessingUrl("/login"): ログインフォームのPOST先URLを指定します。
-                        // このURLへのPOSTリクエストはSpring Securityが自動的に処理します。
-                        .loginProcessingUrl("/login")
-                        // defaultSuccessUrl("/admin/messages", true): ログイン成功後のリダイレクト先URLを指定します。
-                        // 第2引数 true は、常にこのURLにリダイレクトすることを意味します。
-                        .defaultSuccessUrl("/admin/messages", true)
-                        // permitAll(): ログインページ自体へのアクセスは常に許可します。
-                        .permitAll())
-                // logout: ログアウト設定を開始します。
-                .logout((logout) -> logout
-                        // logoutSuccessUrl("/login?logout"): ログアウト成功後のリダイレクト先URLを指定します。
-                        // クエリパラメータ "?logout" は、ログインページで「ログアウトしました」というメッセージを表示するために使われることがあります。
-                        .logoutSuccessUrl("/login?logout")
-                        // permitAll(): ログアウト機能自体へのアクセスは常に許可します。
-                        .permitAll())
-                // headers: セキュリティ関連のHTTPレスポンスヘッダー設定を開始します。
-                .headers((headers) -> headers
-                        // contentSecurityPolicy: Content Security Policy (CSP) ヘッダーを設定します。
-                        // XSS攻撃などを緩和するために、ブラウザが読み込めるリソースを制限します。
-                        .contentSecurityPolicy((csp) -> csp
-                                // policyDirectives: CSPディレクティブ（ルール）を文字列で指定します。
-                                // default-src 'self': デフォルトでは自分自身のオリジンからのみリソースを許可。
-                                // script-src 'self' ...:
-                                // スクリプトは自分自身、Google関連ドメイン、CDN、インラインスクリプトを許可。
-                                // style-src 'self' ...: スタイルは自分自身、Google
-                                // Fonts、CDN、インラインスタイルを許可。
-                                // img-src 'self' data:: 画像は自分自身、data URIスキームを許可。
-                                // font-src 'self' ...: フォントは自分自身、Google Fonts、CDNを許可。
-                                // frame-src 'self' https://www.google.com:
-                                // フレームは自分自身、Googleドメインを許可（reCAPTCHA用）。
-                                .policyDirectives("default-src 'self'; " +
-                                        "script-src 'self' https://www.google.com https://www.gstatic.com https://cdn.jsdelivr.net 'unsafe-inline'; "
-                                        +
-                                        "style-src 'self' https://fonts.googleapis.com https://cdn.jsdelivr.net 'unsafe-inline'; "
-                                        +
-                                        "img-src 'self' data:; " +
-                                        "font-src 'self' https://fonts.gstatic.com https://cdn.jsdelivr.net; "
-                                        +
-                                        "frame-src 'self' https://www.google.com"))
-                        // xssProtection: レガシーな X-XSS-Protection ヘッダーを設定します。
-                        // CSPが推奨されますが、古いブラウザ向けに設定されることもあります。
-                        .xssProtection((xss) -> xss
-                                // headerValue(...): ヘッダー値を設定。ENABLED_MODE_BLOCK
-                                // はXSS検出時にページのレンダリングを停止します。
-                                .headerValue(XXssProtectionHeaderWriter.HeaderValue.ENABLED_MODE_BLOCK))
-                        // contentTypeOptions: X-Content-Type-Options ヘッダーを設定します (デフォルトで
-                        // 'nosniff'
-                        // が設定されます)。
-                        // MIMEタイプスニッフィング攻撃を防ぎます。
-                        .contentTypeOptions(contentTypeOptions -> {
-                        }) // デフォルト設定を適用
-                           // frameOptions: X-Frame-Options ヘッダーを設定します。
-                           // deny(): 他のサイトからのフレーム埋め込みを完全に拒否し、クリックジャッキング攻撃を防ぎます。
-                        .frameOptions(frameOptions -> frameOptions.deny()));
+    public SecurityFilterChain securityFilterChain(@NonNull HttpSecurity http) throws Exception {
 
-        // 設定されたHttpSecurityオブジェクトに基づいてSecurityFilterChainを構築し、返します。
+        // --- プロファイルに応じた Content Security Policy (CSP) 文字列を決定 ---
+        String cspDirectives;
+        if ("dev".equals(activeProfile)) {
+            // 開発環境用: 比較的緩やかな設定 ('unsafe-inline' を許可)
+            cspDirectives = "default-src 'self'; "
+                    + "script-src 'self' https: 'unsafe-inline'; " // スクリプト: 自己 + HTTPS + インライン許可
+                    + "style-src 'self' https: 'unsafe-inline'; " // スタイル: 自己 + HTTPS + インライン許可
+                    + "img-src 'self' data: https:; " // 画像: 自己 + data スキーム + HTTPS
+                    + "font-src 'self' data: https:; " // フォント: 自己 + data スキーム + HTTPS
+                    + "frame-src 'self' https:;"; // フレーム: 自己 + HTTPS
+        } else {
+            // 本番環境用: より厳格な設定 ('unsafe-inline' を可能な限り排除)
+            cspDirectives = "default-src 'self'; " // デフォルト: 自己のみ
+                    + "script-src 'self' https://cdn.jsdelivr.net https://www.google.com https://www.gstatic.com; " // スクリプト: 自己 + CDN + Google関連
+                    + "style-src 'self' https://cdn.jsdelivr.net https://fonts.googleapis.com; " // スタイル: 自己 + CDN + Google Fonts (unsafe-inline 削除)
+                    + "img-src 'self' data: https://www.google.com https://www.gstatic.com; " // 画像: 自己 + data スキーム + Google関連
+                    + "font-src 'self' https://cdn.jsdelivr.net https://fonts.gstatic.com data:; " // フォント: 自己 + CDN + Google Fonts + data スキーム
+                    + "frame-src 'self' https://www.google.com https://recaptcha.google.com; " // フレーム: 自己 + Google関連 (reCAPTCHA)
+                    + "connect-src 'self'; " // 接続先(Ajax等): 自己のみ
+                    + "base-uri 'self';";                          // baseタグのオリジン: 自己のみ
+        }
+
+        // --- HttpSecurity によるセキュリティ設定の構成 ---
+        http
+                // (1) 認可設定: URL ごとのアクセス制御
+                .authorizeHttpRequests((requests) -> requests
+                // FORWARD や INCLUDE ディスパッチタイプの内部的なリクエストは常に許可
+                .dispatcherTypeMatchers(DispatcherType.FORWARD, DispatcherType.INCLUDE).permitAll()
+                // 特定の公開パスは認証なしでアクセス許可
+                .requestMatchers(
+                        "/", "/index", "/about", "/service", // 主要ページ
+                        "/contact/**", "/thankyou", // お問い合わせ関連
+                        "/css/**", "/js/**", "/images/**", // 静的リソース
+                        "/login", "/error", "/favicon.ico" // ログイン、エラー、ファビコン
+                ).permitAll()
+                // "/admin/" 以下は ADMIN ロールを持つユーザーのみ許可
+                .requestMatchers("/admin/**").hasRole("ADMIN")
+                // 上記以外、全てのりクエストは認証が必要
+                .anyRequest().authenticated()
+                )
+                // (2) フォームログイン設定
+                .formLogin((form) -> form
+                .loginPage("/login") // カスタムログインページのパス
+                .loginProcessingUrl("/login") // ログイン処理を行うパス (POST)
+                .defaultSuccessUrl("/admin/messages", true) // ログイン成功時のリダイレクト先 (常に)
+                .permitAll() // ログインページ自体は常に許可
+                )
+                // (3) ログアウト設定
+                .logout((logout) -> logout
+                .logoutSuccessUrl("/login?logout") // ログアウト成功時のリダイレクト先
+                .permitAll() // ログアウト機能自体は常に許可
+                )
+                // (4) HTTP レスポンスヘッダー設定
+                .headers((headers) -> headers
+                // Content Security Policy (CSP)
+                .contentSecurityPolicy(csp -> csp
+                .policyDirectives(cspDirectives) // プロファイルに応じたポリシーを適用
+                )
+                // X-XSS-Protection (レガシーブラウザ向け XSS 防御)
+                .xssProtection(xss -> xss
+                .headerValue(XXssProtectionHeaderWriter.HeaderValue.ENABLED_MODE_BLOCK) // ブロックモードで有効化
+                )
+                // X-Content-Type-Options (MIME スニッフィング防止)
+                .contentTypeOptions(contentTypeOptions -> {
+                }) // デフォルト (nosniff) を適用
+                // X-Frame-Options (クリックジャッキング対策)
+                .frameOptions(frameOptions -> frameOptions
+                .deny() // フレーム内での表示を全面的に拒否
+                )
+                // Referrer-Policy (リファラー情報の送信制御)
+                .referrerPolicy(referrer -> referrer
+                .policy(ReferrerPolicyHeaderWriter.ReferrerPolicy.STRICT_ORIGIN_WHEN_CROSS_ORIGIN) // クロスオリジンではオリジンのみ送信
+                )
+                // Permissions-Policy (ブラウザ機能へのアクセス制御)
+                .addHeaderWriter(
+                        new StaticHeadersWriter("Permissions-Policy", "camera=(), microphone=(), geolocation=()") // カメラ等を無効化
+                )
+                ); // headers 設定終了
+
+        // 設定を確定し、SecurityFilterChain を構築して返す
         return http.build();
     }
 
     /**
-     * 環境変数 ADMIN_USERNAME から管理者ユーザー名を取得します。
-     * 環境変数が設定されていない場合のデフォルト値として "admin" を使用します。
-     */
-    @Value("${ADMIN_USERNAME}") // <- 環境変数名:デフォルト値
-    private String adminUsername;
-
-    /**
-     * 環境変数 ADMIN_PASSWORD から管理者パスワードを取得します。
-     * 環境変数が設定されていない場合のデフォルト値として "password" を使用します。
-     * 注意: デフォルト値も本番環境では安全なものにするか、環境変数設定を必須にすべきです。
-     */
-    @Value("${ADMIN_PASSWORD}") // <- 環境変数名:デフォルト値
-    private String adminPassword;
-
-    /**
-     * UserDetailsServiceのBean定義です。
-     * ユーザーアカウント情報（ユーザー名、パスワード、ロール）をどのように取得するかを定義します。
-     * 
-     * @param passwordEncoder パスワードをエンコードするために注入されるPasswordEncoder Bean。
-     * @return UserDetailsServiceの実装インスタンス。
+     * インメモリ (メモリ上) のユーザー詳細サービス (UserDetailsService) の Bean を定義します。
+     * 今回は管理者ユーザーのみを定義しています。
+     *
+     * @param passwordEncoder パスワードのエンコードに使用する PasswordEncoder
+     * @return UserDetailsService の実装インスタンス
      */
     @Bean
     public UserDetailsService userDetailsService(PasswordEncoder passwordEncoder) {
-        // UserDetailsオブジェクト（ユーザー情報）を作成します。
-        UserDetails user = org.springframework.security.core.userdetails.User
-                // 環境変数から取得したユーザー名を使用します。
-                .withUsername(adminUsername)
-                // 環境変数から取得したパスワードをエンコードして使用します。
-                .password(passwordEncoder.encode(adminPassword))
-                // roles: ユーザーに付与するロール（権限）を設定します。
-                // ここで "ADMIN" と指定すると、実際には "ROLE_ADMIN" という権限が付与されます。
-                // これは、上記の .hasRole("ADMIN") と対応します。
-                .roles("ADMIN")
-                // build: UserDetailsオブジェクトを構築します。
+        // 管理者ユーザー情報を構築
+        UserDetails adminUser = User
+                .withUsername(adminUsername) // 環境変数から取得したユーザー名
+                .password(passwordEncoder.encode(adminPassword)) // 環境変数から取得しエンコードしたパスワード
+                .roles("ADMIN") // "ADMIN" ロールを付与 (実際には "ROLE_ADMIN" として扱われる)
                 .build();
 
-        // InMemoryUserDetailsManager: ユーザー情報をメモリ上に保持するUserDetailsService。
-        // テストや非常に単純なアプリケーションに適していますが、ユーザーが増えたり、永続化が必要な本番環境には向きません。
-        // 本番環境では通常、データベースからユーザー情報を読み込む実装 (例: JdbcDaoImpl, カスタム実装) を使用します。
-        return new InMemoryUserDetailsManager(user);
+        // 作成した管理者ユーザー情報を持つインメモリマネージャーを返す
+        // 本番環境では通常、データベース等からユーザー情報を取得する実装に置き換える
+        return new InMemoryUserDetailsManager(adminUser);
     }
 }
