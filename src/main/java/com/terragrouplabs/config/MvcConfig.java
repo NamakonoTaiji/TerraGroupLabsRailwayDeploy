@@ -43,11 +43,11 @@ public class MvcConfig {
         // これにより、Controllerでは拡張子を除いたビュー名だけを指定すればよくなります。
         resolver.setSuffix(".jsp");
 
-        // setExposeContextBeansAsAttributes(true):
+        // setExposeContextBeansAsAttributes(false):
         // Springコンテナで管理されている全てのBeanを、リクエスト属性としてJSPからアクセス可能にするかどうかを設定します。（デフォルトはfalse）
         // trueにすると、JSP内で `${beanName.someProperty}` のようにBeanのプロパティに直接アクセスできますが、
         // 意図しないBeanが公開される可能性もあるため、通常はfalseのままか、必要なBeanだけをModelに追加する方法が推奨されます。
-        resolver.setExposeContextBeansAsAttributes(true);
+        resolver.setExposeContextBeansAsAttributes(false);
 
         // setExposePathVariables(true):
         // Controllerのメソッドで `@PathVariable` を使って取得したパス変数を、

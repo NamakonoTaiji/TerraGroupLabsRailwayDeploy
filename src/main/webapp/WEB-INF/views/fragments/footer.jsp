@@ -52,7 +52,7 @@
     </script>
     </c:if>
     
-    <!-- 追加のスクリプト -->
+    <!-- 追加のスクリプト(現在は実装なし) -->
     <c:if test="${not empty additionalScripts}">
         ${additionalScripts}
     </c:if>
