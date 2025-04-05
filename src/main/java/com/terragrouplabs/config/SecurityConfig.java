@@ -98,6 +98,8 @@ public class SecurityConfig {
                 ).permitAll()
                 // "/admin/" 以下は ADMIN ロールを持つユーザーのみ許可
                 .requestMatchers("/admin/**").hasRole("ADMIN")
+                // "/debug-session" は ADMIN ロールを持つユーザーのみ許可
+                .requestMatchers("/debug-session").hasRole("ADMIN")
                 // 上記以外、全てのりクエストは認証が必要
                 .anyRequest().authenticated()
                 )
