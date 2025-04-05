@@ -32,4 +32,4 @@ COPY --from=builder /app/target/*.war app.war
 EXPOSE 8080
 
 # コンテナ起動時にアプリケーションを実行
-ENTRYPOINT ["java", "-Xmx256m", "-jar", "app.war"]
+ENTRYPOINT ["java", "-Xmx356m", "-jar", "app.war"]
