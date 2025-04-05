@@ -1,22 +1,30 @@
-{"properties": [
-  {
-    "name": "google.recaptcha.key",
-    "type": "java.lang.String",
-    "description": "A description for 'google.recaptcha.key'"
-  },
-  {
-    "name": "google.recaptcha.secret",
-    "type": "java.lang.String",
-    "description": "A description for 'google.recaptcha.secret'"
-  },
-  {
-    "name": "spring.mvc.view.htmlEscape",
-    "type": "java.lang.String",
-    "description": "A description for 'spring.mvc.view.htmlEscape'"
-  },
-  {
-    "name": "recaptcha.testing.enabled",
-    "type": "java.lang.String",
-    "description": "A description for 'recaptcha.testing.enabled'"
-  }
-]}
+{
+    "properties": [
+        {
+            "name": "google.recaptcha.key",
+            "type": "java.lang.String",
+            "description": "A description for 'google.recaptcha.key'"
+        },
+        {
+            "name": "google.recaptcha.secret",
+            "type": "java.lang.String",
+            "description": "A description for 'google.recaptcha.secret'"
+        },
+        {
+            "name": "spring.mvc.view.htmlEscape",
+            "type": "java.lang.String",
+            "description": "A description for 'spring.mvc.view.htmlEscape'"
+        },
+        {
+            "name": "recaptcha.testing.enabled",
+            "type": "java.lang.String",
+            "description": "A description for 'recaptcha.testing.enabled'"
+        },
+        {
+            "name": "contact.admin.email",
+            "type": "java.lang.String",
+            "description": "お問い合わせフォームの通知先となる管理者メールアドレス。",
+            "defaultValue": "terragrouplabs0@gmail.com"
+        }
+    ]
+}
