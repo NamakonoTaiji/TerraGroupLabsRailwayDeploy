@@ -81,9 +81,9 @@ public class HomeController {
      * @return 表示するビュー名 ("about")
      */
     @GetMapping("/about")
-    public String showAboutPage(@NonNull Model model) { // @NonNull 追加推奨
+    public String showAboutPage(@NonNull Model model) {
         // ページタイトルと識別子をモデルに追加
-        model.addAttribute("pageTitle", "TerraGroup Labs について"); // ★★★ このコメントは削除推奨
+        model.addAttribute("pageTitle", "TerraGroup Labs について");
         model.addAttribute("currentPage", "about");
         // 対応するビューの名前 ("about") を返す -> "/WEB-INF/views/about.jsp"
         return "about";
@@ -96,11 +96,11 @@ public class HomeController {
      * @return 表示するビュー名 ("service")
      */
     @GetMapping("/service")
-    public String showServicePage(@NonNull Model model) { // @NonNull 追加推奨
+    public String showServicePage(@NonNull Model model) {
         // 全サービス情報を取得してモデルに追加
         model.addAttribute("services", serviceService.getAllServices());
         // ページタイトルと識別子をモデルに追加
-        model.addAttribute("pageTitle", "サービス"); // ★★★ このコメントは削除推奨
+        model.addAttribute("pageTitle", "サービス");
         model.addAttribute("currentPage", "service");
         // 対応するビューの名前 ("service") を返す -> "/WEB-INF/views/service.jsp"
         return "service";
