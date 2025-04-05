@@ -57,9 +57,13 @@ public class HomeController {
      */
     @GetMapping("/")
     public String showHomePage(@NonNull Model model) {
+        //--- モデルに contactMessage が存在しない場合のみ、新しい空のオブジェクトを追加 ---
+        if (!model.containsAttribute("contactMessage")) {
+            // お問い合わせフォーム用に空の ContactMessage オブジェクトを追加 (フォームの modelAttribute と対応)
+            model.addAttribute("contactMessage", new ContactMessage());
+        }
         //--- モデルに属性を追加 ---
-        // お問い合わせフォーム用に空の ContactMessage オブジェクトを追加 (フォームの modelAttribute と対応)
-        model.addAttribute("contactMessage", new ContactMessage());
+
         // ServiceService を使って全サービス情報を取得し、モデルに追加
         model.addAttribute("services", serviceService.getAllServices());
         // reCAPTCHA のサイトキーをモデルに追加 (JSPの g-recaptcha タグで使用)

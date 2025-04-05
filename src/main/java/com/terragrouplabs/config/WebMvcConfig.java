@@ -2,28 +2,28 @@
 package com.terragrouplabs.config;
 
 // 必要なクラスをインポート
-import org.springframework.context.annotation.Configuration; // このクラスが設定クラスであることを示す
-import org.springframework.http.CacheControl; // HTTPキャッシュ制御ヘッダーを構築するためのクラス
-import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry; // 静的リソースハンドラを登録するためのレジストリ
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer; // Spring MVCの設定をカスタマイズするためのインターフェース
-import org.springframework.lang.NonNull; // 引数がnullでないことを示すアノテーション
+import java.util.concurrent.TimeUnit; // このクラスが設定クラスであることを示す
 
-import java.util.concurrent.TimeUnit; // 時間単位を表す列挙型 (DAYSなど)
+import org.springframework.context.annotation.Configuration; // HTTPキャッシュ制御ヘッダーを構築するためのクラス
+import org.springframework.http.CacheControl; // 静的リソースハンドラを登録するためのレジストリ
+import org.springframework.lang.NonNull; // Spring MVCの設定をカスタマイズするためのインターフェース
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry; // 引数がnullでないことを示すアノテーション
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer; // 時間単位を表す列挙型 (DAYSなど)
 
 /**
- * Spring MVCのWeb設定、特に静的リソースのハンドリングをカスタマイズするクラスです。
- * 
- * @Configuration アノテーションにより、Spring Boot がこのクラスを読み込み、設定を適用します。
- *                WebMvcConfigurer を実装することで、特定の設定メソッドをオーバーライドできます。
+ * Spring MVCのWeb設定、特に静的リソースのハンドリングをカスタマイズするクラスです。 DispatcherServlet
+ * に対し、静的リソースへのリクエストをControllerに渡さず、静的リソースへのリクエストとして特別に扱うように指示します。
+ *
+ * @Configuration アノテーションにより、Spring Boot がこのクラスを読み込み、設定を適用します。 WebMvcConfigurer
+ * を実装することで、特定の設定メソッドをオーバーライドできます。
  */
 @Configuration
 public class WebMvcConfig implements WebMvcConfigurer {
 
     /**
      * 静的リソースハンドラを追加・設定するためのメソッドをオーバーライドします。
-     * ここで、特定のURLパスパターンにアクセスがあった場合に、どの場所からリソースを提供し、
-     * どのようなキャッシュ設定を適用するかを定義します。
-     * 
+     * ここで、特定のURLパスパターンにアクセスがあった場合に、どの場所からリソースを提供し、 どのようなキャッシュ設定を適用するかを定義します。
+     *
      * @param registry リソースハンドラを登録するためのレジストリ (Springが自動的に注入)
      */
     @Override
