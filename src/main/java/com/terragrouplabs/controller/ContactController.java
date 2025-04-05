@@ -83,7 +83,7 @@ public class ContactController {
     public String confirmContactForm(
             @Valid @ModelAttribute("contactMessage") ContactMessage contactMessage,
             @NonNull BindingResult bindingResult,
-            @RequestParam(name = "g-recaptcha-response", required = false) String recaptchaResponse, // required=false は意図的？ reCAPTCHA が必須なら true or 別途チェック推奨
+            @RequestParam(name = "g-recaptcha-response", required = true) String recaptchaResponse, // required=false は意図的？ reCAPTCHA が必須なら true or 別途チェック推奨
             @NonNull RedirectAttributes redirectAttributes) {
 
         logger.debug("Received POST /contact/confirm");
@@ -96,8 +96,6 @@ public class ContactController {
             // フラッシュ属性はリダイレクト後の一度だけ読み取れる属性
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.contactMessage", bindingResult);
             redirectAttributes.addFlashAttribute("contactMessage", contactMessage);
-            // エラーがあったことを示すフラグ
-            redirectAttributes.addFlashAttribute("hasValidationError", true); // "hasError" より具体的かも
 
             // 元のフォームにリダイレクト。パラメータとフラグメント識別子付き。
             return "redirect:/?formError=true#contact";
@@ -114,7 +112,6 @@ public class ContactController {
             // エラー情報と入力内容をフラッシュ属性として設定
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.contactMessage", bindingResult);
             redirectAttributes.addFlashAttribute("contactMessage", contactMessage);
-            redirectAttributes.addFlashAttribute("hasRecaptchaError", true); // "hasError" より具体的かも
 
             // 元のフォームにリダイレクト
             return "redirect:/?formError=true#contact";
