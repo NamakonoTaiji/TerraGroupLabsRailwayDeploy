@@ -38,7 +38,6 @@ build/
 # 機密情報を含むファイル
 src/main/resources/application-dev.properties
 src/main/resources/application-env.properties
-# Spring Boot 追加設定メタデータファイル (IDEヘルパー)
-src/main/resources/META-INF/additional-spring-configuration-metadata.json
+
 # 不要なファイル
 appealpoint.txt
