@@ -62,8 +62,7 @@ public class ContactController {
      * @return 新しい ContactMessage インスタンス
      */
     @ModelAttribute("contactMessage")
-    public ContactMessage setUpContactMessage() { // メソッド名を setUp... のように変えると意図が分かりやすいかも
-        // logger.debug("Initializing ContactMessage attribute in model/session."); // デバッグ用ログ
+    public ContactMessage setUpContactMessage() {
         return new ContactMessage();
     }
 
@@ -83,7 +82,7 @@ public class ContactController {
     public String confirmContactForm(
             @Valid @ModelAttribute("contactMessage") ContactMessage contactMessage,
             @NonNull BindingResult bindingResult,
-            @RequestParam(name = "g-recaptcha-response", required = true) String recaptchaResponse, // required=false は意図的？ reCAPTCHA が必須なら true or 別途チェック推奨
+            @RequestParam(name = "g-recaptcha-response", required = true) String recaptchaResponse,
             @NonNull RedirectAttributes redirectAttributes) {
 
         logger.debug("Received POST /contact/confirm");
@@ -98,7 +97,7 @@ public class ContactController {
             redirectAttributes.addFlashAttribute("contactMessage", contactMessage);
 
             // 元のフォームにリダイレクト。パラメータとフラグメント識別子付き。
-            return "redirect:/?formError=true#contact";
+            return "redirect:/#contact";
         }
 
         // 2. reCAPTCHA の検証
@@ -107,14 +106,14 @@ public class ContactController {
             logger.warn("reCAPTCHA verification failed.");
             // reCAPTCHA 検証失敗の場合、BindingResult にエラーを追加
             // 第1引数はフィールド名(今回は特定フィールドではないのでグローバルエラー扱い or フォーム全体を示すキー), 第2引数はエラーコード(省略可), 第3引数はメッセージ
-            bindingResult.reject("recaptcha.error", "reCAPTCHA検証に失敗しました。ロボットではないことを確認してください。"); // エラーコードを具体的にしても良い
+            bindingResult.reject("recaptcha.error", "reCAPTCHA検証に失敗しました。ロボットではないことを確認してください。");
 
             // エラー情報と入力内容をフラッシュ属性として設定
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.contactMessage", bindingResult);
             redirectAttributes.addFlashAttribute("contactMessage", contactMessage);
 
             // 元のフォームにリダイレクト
-            return "redirect:/?formError=true#contact";
+            return "redirect:/#contact";
         }
 
         // 3. 検証成功：確認画面へ
@@ -143,7 +142,7 @@ public class ContactController {
         // (オプション) もし確認画面でエラーが発生するような特殊ケースがあれば、
         // BindingResult もフラッシュ属性で渡すことを検討できますが、通常「戻る」ではないでしょう。
         // 元のフォームへリダイレクト
-        return "redirect:/?formError=true#contact";
+        return "redirect:/#contact";
     }
 
     /**
@@ -192,10 +191,11 @@ public class ContactController {
         } catch (Exception e) {
             // データベース保存などで予期せぬエラーが発生した場合
             logger.error("Error processing contact form submission: {}", e.getMessage(), e);
+            redirectAttributes.addFlashAttribute("contactMessage", contactMessage);
             // エラーメッセージをフラッシュ属性に追加
             redirectAttributes.addFlashAttribute("errorMessage", "処理中にエラーが発生しました。しばらくしてからもう一度お試しください。");
             // フォームへリダイレクト
-            return "redirect:/?formError=true#contact";
+            return "redirect:/#contact";
         }
     }
 
