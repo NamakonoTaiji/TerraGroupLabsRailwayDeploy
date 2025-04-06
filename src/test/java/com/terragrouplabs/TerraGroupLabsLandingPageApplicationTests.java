@@ -15,8 +15,9 @@ class TerraGroupLabsLandingPageApplicationTests {
 
     @Test
     void contextLoads() {
-        // このテスト（コンテキストのロード）は JavaMailSender がモック化されているため、
-        // メール設定不足で失敗しなくなるはずです。
+        // テストの実行
+        // ここでは特に何もする必要はありません。
+        // Spring Boot がコンテキストを正しくロードできるかどうかを確認するだけです。
     }
 
 }

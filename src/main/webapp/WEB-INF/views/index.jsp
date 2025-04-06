@@ -268,6 +268,14 @@
     </section>
     
     <!-- お問い合わせセクション -->
+    <c:if test="${not empty errorMessage}">
+        <div class="container mb-4">
+            <div class="alert alert-danger" role="alert">
+                <c:out value="${errorMessage}" />
+            </div>
+        </div>
+    </c:if>
+
     <section id="contact" class="section">
         <div class="container">
             <div class="row justify-content-center">
@@ -341,4 +349,12 @@
         </div>
     </section>
 </div>
+
+<script>
+    // サーバーからのフラッシュ属性 (BindingResult) の存在をチェックし、JS変数に設定
+    // 注意: 文字列比較 'true' を使っているのは、JSTL/EL の boolean が JS にどう渡るか確実にするため
+    const hasFormErrors = ('${not empty org.springframework.validation.BindingResult.contactMessage}' === 'true');
+    console.log('hasFormErrors:', hasFormErrors); // デバッグ用ログ
+</script>
+
 <jsp:include page="/WEB-INF/views/fragments/footer.jsp" />
