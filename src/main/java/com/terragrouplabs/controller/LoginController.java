@@ -2,7 +2,9 @@ package com.terragrouplabs.controller;
 
 import java.util.Enumeration;
 
+import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -20,7 +22,9 @@ public class LoginController {
      * @return 表示するビュー名 ("login") -> /WEB-INF/views/login.jsp
      */
     @GetMapping("/login")
-    public String login() {
+    public String login(@NonNull Model model) {
+        model.addAttribute("pageTitle", "ログイン");
+        model.addAttribute("currentPage", "login");
         return "login";
     }
 
@@ -32,7 +36,7 @@ public class LoginController {
      */
     @GetMapping("/debug-session")
     @ResponseBody // 戻り値がビュー名ではなくレスポンスボディそのもの
-    public String debugSession(HttpSession session) {
+    public String debugSession(@NonNull HttpSession session, @NonNull Model model) {
         StringBuilder sb = new StringBuilder();
         sb.append("Session ID: ").append(session.getId()).append("<br>");
 
@@ -43,6 +47,8 @@ public class LoginController {
             sb.append(name).append(": ").append(session.getAttribute(name)).append("<br>");
         }
 
+        model.addAttribute("pageTitle", "Session Debug");
+        model.addAttribute("currentPage", "debug-session");
         return sb.toString();
     }
 }
