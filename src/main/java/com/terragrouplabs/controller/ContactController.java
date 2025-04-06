@@ -2,26 +2,26 @@
 package com.terragrouplabs.controller;
 
 // --- Java Standard Imports ---
-import org.slf4j.Logger; // LoginController から残っていた？ このクラスでは使われていないようです
+import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.lang.NonNull;
-import org.springframework.stereotype.Controller; // 今回は使っていないが、一般的に使われる
-import org.springframework.ui.Model; // Nullability アノテーション
-import org.springframework.validation.BindingResult;
+import org.springframework.lang.NonNull; // Nullability アノテーション
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult; // バリデーション結果を保持
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute; // バリデーション結果を保持
+import org.springframework.web.bind.annotation.ModelAttribute; // モデル属性の処理
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam; // モデル属性の処理
-import org.springframework.web.bind.annotation.SessionAttributes;
-import org.springframework.web.bind.support.SessionStatus; // リクエストパラメータの取得
-import org.springframework.web.servlet.mvc.support.RedirectAttributes; // セッション属性の管理
+import org.springframework.web.bind.annotation.RequestParam; // リクエストパラメータの取得
+import org.springframework.web.bind.annotation.SessionAttributes; // セッション属性の管理
+import org.springframework.web.bind.support.SessionStatus; // セッション属性のクリア
+import org.springframework.web.servlet.mvc.support.RedirectAttributes; // リダイレクト時の属性渡し
 
-import com.terragrouplabs.entity.ContactMessage; // セッション属性のクリア
-import com.terragrouplabs.service.ContactMessageService; // リダイレクト時の属性渡し
-import com.terragrouplabs.service.EmailService;     // お問い合わせメッセージのエンティティ
-import com.terragrouplabs.service.RecaptchaService; // メッセージ保存用サービス
+import com.terragrouplabs.entity.ContactMessage; // お問い合わせメッセージのエンティティ
+import com.terragrouplabs.service.ContactMessageService; // メッセージ保存用サービス
+import com.terragrouplabs.service.EmailService; // メール送信用サービス
+import com.terragrouplabs.service.RecaptchaService;
 
-import jakarta.validation.Valid;          // メール送信用サービス
+import jakarta.validation.Valid;
 
 /**
  * お問い合わせフォームに関連するリクエストを処理するコントローラ。 入力 -> 確認 -> 送信完了 (Thankyou) の画面遷移を管理します。
@@ -83,7 +83,8 @@ public class ContactController {
             @Valid @ModelAttribute("contactMessage") ContactMessage contactMessage,
             @NonNull BindingResult bindingResult,
             @RequestParam(name = "g-recaptcha-response", required = true) String recaptchaResponse,
-            @NonNull RedirectAttributes redirectAttributes) {
+            @NonNull RedirectAttributes redirectAttributes,
+            @NonNull Model model) {
 
         logger.debug("Received POST /contact/confirm");
         logger.debug("reCAPTCHA Response present: {}", (recaptchaResponse != null && !recaptchaResponse.isEmpty()));
@@ -118,8 +119,10 @@ public class ContactController {
 
         // 3. 検証成功：確認画面へ
         logger.debug("Validation and reCAPTCHA successful. Proceeding to confirmation view.");
-        // "contactMessage" は @SessionAttributes によりセッションに保持されているので、
-        // そのまま確認画面のビュー名を返すだけで良い。
+
+        model.addAttribute("pageTitle", "お問い合わせ内容のご確認");
+        model.addAttribute("currentPage", "contact"); // お問い合わせ関連ページとして
+        // "contactMessage" は @SessionAttributes によりセッションに保持されているので、そのまま確認画面のビュー名を返すだけで良い。
         return "confirm"; // -> /WEB-INF/views/confirm.jsp
     }
 
