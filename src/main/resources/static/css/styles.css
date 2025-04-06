@@ -823,6 +823,12 @@ pre {
     height: 50px;
 }
 
+.message-content-pre {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    font-family: inherit;
+    margin-bottom: 0;
+}
 
 /* ==========================================================================
    8. アクセシビリティ
@@ -906,11 +912,6 @@ textarea:focus {
         left: 30px;
         transform: translateX(-50%);
         /* 位置調整 */
-    }
-
-    /* サービスカード */
-    .terra-card {
-        /* このブレークポイントでマージンは不要かも？ .row.g-4 があれば */
     }
 }
 

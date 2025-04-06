@@ -105,7 +105,7 @@ public class SecurityConfig {
                 )
                 // (2) フォームログイン設定
                 .formLogin((form) -> form
-                .loginPage("/login") // カスタムログインページのパス
+                .loginPage("/login") // ログインが必要な場合は、このページに誘導する
                 .loginProcessingUrl("/login") // ログイン処理を行うパス (POST)
                 .defaultSuccessUrl("/admin/messages", true) // ログイン成功時のリダイレクト先 (常に)
                 .permitAll() // ログインページ自体は常に許可
