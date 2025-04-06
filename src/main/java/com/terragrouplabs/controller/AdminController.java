@@ -74,7 +74,7 @@ public class AdminController {
         // findById は Optional を返すため、orElse(null) で見つからない場合は null をセット
         model.addAttribute("message", contactRepository.findById(id).orElse(null));
         // ページ識別子とタイトルをモデルに追加
-        model.addAttribute("currentPage", "adminMessages"); // 一覧画面と同じ識別子で良いか？ 詳細画面用の識別子が良いかも
+        model.addAttribute("currentPage", "adminMessageDetail");
         model.addAttribute("pageTitle", "お問い合わせ詳細");
         // 対応するビューの名前 -> /WEB-INF/views/admin/message-detail.jsp
         return "admin/message-detail";
