@@ -20,7 +20,7 @@ RUN MAVEN_OPTS="-Xmx384m" ./mvnw package -DskipTests
 
 # --- ステージ2: ランタイムステージ ---
 # JRE21のみを含む軽量なイメージを使う
-FROM eclipse-temurin:21-jre-alpine 
+FROM eclipse-temurin:21-jre-jammy
 
 # 作業ディレクトリを設定
 WORKDIR /app
