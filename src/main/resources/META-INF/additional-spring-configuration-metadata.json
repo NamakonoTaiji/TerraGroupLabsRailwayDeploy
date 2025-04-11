@@ -1,22 +1,34 @@
-{"properties": [
-  {
-    "name": "google.recaptcha.key",
-    "type": "java.lang.String",
-    "description": "A description for 'google.recaptcha.key'"
-  },
-  {
-    "name": "google.recaptcha.secret",
-    "type": "java.lang.String",
-    "description": "A description for 'google.recaptcha.secret'"
-  },
-  {
-    "name": "spring.mvc.view.htmlEscape",
-    "type": "java.lang.String",
-    "description": "A description for 'spring.mvc.view.htmlEscape'"
-  },
-  {
-    "name": "recaptcha.testing.enabled",
-    "type": "java.lang.String",
-    "description": "A description for 'recaptcha.testing.enabled'"
-  }
-]}
+{
+    "properties": [
+        {
+            "name": "google.recaptcha.key",
+            "type": "java.lang.String",
+            "description": "reCAPTCHAのサイトキー"
+        },
+        {
+            "name": "google.recaptcha.secret",
+            "type": "java.lang.String",
+            "description": "reCAPTCHAのシークレットキー"
+        },
+        {
+            "name": "spring.mvc.view.htmlEscape",
+            "type": "java.lang.String",
+            "description": "spring.mvc.view.htmlEscapeの設定。trueにすると、HTMLエスケープが有効。"
+        },
+        {
+            "name": "contact.admin.email",
+            "type": "java.lang.String",
+            "description": "管理者の通知用メールアドレス"
+        },
+        {
+            "name": "ADMIN_USERNAME",
+            "type": "java.lang.String",
+            "description": "管理者アカウントのユーザー名（SecurityConfigの@Valueで使用）。環境変数またはプロファイル固有プロパティで設定。"
+        },
+        {
+            "name": "ADMIN_PASSWORD",
+            "type": "java.lang.String",
+            "description": "管理者アカウントのパスワード（SecurityConfigの@Valueで使用）。環境変数またはプロファイル固有プロパティで設定。"
+        }
+    ]
+}

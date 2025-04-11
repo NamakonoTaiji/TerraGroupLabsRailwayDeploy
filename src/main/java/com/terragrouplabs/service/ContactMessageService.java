@@ -25,14 +25,12 @@ public class ContactMessageService {
 
     /**
      * コンストラクタインジェクション。 Spring がこのクラスのインスタンス (Bean) を生成する際に、 必要な依存オブジェクト
-     * (ContactMessageRepository と EmailService の Bean) を 自動的に引数に渡してくれます
-     * (注入してくれます)。 これにより、このクラス内で `contactRepository` や `emailService`
-     * が利用可能になります。
+     * (ContactMessageRepositoryのBean) を 自動的に引数に渡してくれます (注入してくれます)。
+     * これにより、このクラス内で `contactRepository` が利用可能になります。
      *
      * @param contactRepository 注入される ContactMessageRepository のインスタンス
-     * @param emailService 注入される EmailService のインスタンス
      */
-    public ContactMessageService(ContactMessageRepository contactRepository, EmailService emailService) {
+    public ContactMessageService(ContactMessageRepository contactRepository) {
         this.contactRepository = contactRepository;
     }
 

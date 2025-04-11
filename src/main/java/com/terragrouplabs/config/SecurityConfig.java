@@ -32,12 +32,12 @@ public class SecurityConfig {
     private String activeProfile;
 
     // 環境変数から管理者ユーザー名を取得 (デフォルト: "admin")
-    @Value("${ADMIN_USERNAME:admin}") // デフォルト値をコロンの後に追加
+    @Value("${ADMIN_USERNAME}") // デフォルト値をコロンの後に追加
     private String adminUsername;
 
     // 環境変数から管理者パスワードを取得 (デフォルト: "password")
     // 注意: 本番環境では必ず環境変数を設定し、デフォルト値に頼らないこと
-    @Value("${ADMIN_PASSWORD:password}") // デフォルト値をコロンの後に追加
+    @Value("${ADMIN_PASSWORD}") // デフォルト値をコロンの後に追加
     private String adminPassword;
 
     /**
