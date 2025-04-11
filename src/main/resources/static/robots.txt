@@ -6,4 +6,4 @@ Disallow: /admin/
 Disallow: /login
 Disallow: /debug-session
 
-Sitemap: https://terragrouplabs.com/sitemap.xml
+Sitemap: https://web-production-a32c0.up.railway.app/sitemap.xml

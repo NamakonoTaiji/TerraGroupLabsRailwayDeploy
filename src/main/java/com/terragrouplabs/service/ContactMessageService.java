@@ -22,8 +22,6 @@ public class ContactMessageService {
     // @Autowired を使わず、final フィールドとコンストラクタインジェクションを使うのが推奨される方法です。
     // お問い合わせメッセージのデータアクセスを担当するリポジトリ
     private final ContactMessageRepository contactRepository;
-    // メール送信を担当するサービス
-    private final EmailService emailService;
 
     /**
      * コンストラクタインジェクション。 Spring がこのクラスのインスタンス (Bean) を生成する際に、 必要な依存オブジェクト
@@ -36,7 +34,6 @@ public class ContactMessageService {
      */
     public ContactMessageService(ContactMessageRepository contactRepository, EmailService emailService) {
         this.contactRepository = contactRepository;
-        this.emailService = emailService;
     }
 
     /**

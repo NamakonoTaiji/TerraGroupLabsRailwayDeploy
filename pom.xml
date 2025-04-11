@@ -147,34 +147,6 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
 
-            <!-- wro4j-maven-plugin -->
-            <plugin>
-                <groupId>ro.isdc.wro4j</groupId>
-                <artifactId>wro4j-maven-plugin</artifactId>
-                <version>1.10.1</version> <executions>
-                    <execution>
-                        <phase>prepare-package</phase>
-                        <goals>
-                            <goal>run</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <wroManagerFactory>ro.isdc.wro.maven.plugin.manager.factory.ConfigurableWroManagerFactory</wroManagerFactory>
-
-                    <cssDestinationFolder>${project.build.directory}/${project.build.finalName}/static/css/</cssDestinationFolder>
-
-                    <jsDestinationFolder>${project.build.directory}/${project.build.finalName}/static/js/</jsDestinationFolder>
-
-                    <wroFile>${basedir}/src/main/webapp/WEB-INF/wro.xml</wroFile>
-
-                    <contextFolder>/src/main/wro/</contextFolder>
-
-                    <failOnMissingResources>false</failOnMissingResources>
-
-                    <ignoreMissingResources>false</ignoreMissingResources>
-                </configuration>
-            </plugin>
         </plugins>
     </build>
 </project>
