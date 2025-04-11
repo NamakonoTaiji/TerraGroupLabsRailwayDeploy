@@ -16,7 +16,7 @@ COPY src ./src
 COPY mvnw .
 COPY .mvn/ .mvn/
 RUN chmod +x ./mvnw
-RUN MAVEN_OPTS="-Xmx384m" ./mvnw package -DskipTests
+RUN MAVEN_OPTS="-Xmx6g" ./mvnw package -DskipTests
 
 # --- ステージ2: ランタイムステージ ---
 # JRE21のみを含む軽量なイメージを使う
@@ -32,4 +32,4 @@ COPY --from=builder /app/target/*.war app.war
 EXPOSE 8080
 
 # コンテナ起動時にアプリケーションを実行
-ENTRYPOINT ["java", "-Xmx384m", "-jar", "app.war"]
+ENTRYPOINT ["java", "-Xmx6g", "-jar", "app.war"]
