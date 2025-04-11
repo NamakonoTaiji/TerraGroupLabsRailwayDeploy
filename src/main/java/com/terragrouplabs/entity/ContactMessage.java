@@ -188,11 +188,16 @@ public class ContactMessage {
     // toString() メソッドの実装
     @Override
     public String toString() {
+        // message 部分の条件分岐を修正
+        String messageSnippet = (message != null)
+                ? (message.length() > 20 ? message.substring(0, 20) + "..." : message) // 長さが20文字より大きい場合のみ substring する
+                : "null";
+
         return "ContactMessage{"
                 + "id=" + id
                 + ", name='" + name + '\''
-                + ", email='" + (email != null ? email.replaceAll("(?<=.).(?=[^@]*?@)", "*") : "null") + '\'' // マスキング例
-                + ", message='" + (message != null && message.length() > 20 ? message.substring(0, 30) + "..." : message) + '\''
+                + ", email='" + (email != null ? email.replaceAll("(?<=.).(?=[^@]*?@)", "*") : "null") + '\''
+                + ", message='" + messageSnippet + '\''
                 + '}';
     }
 }
