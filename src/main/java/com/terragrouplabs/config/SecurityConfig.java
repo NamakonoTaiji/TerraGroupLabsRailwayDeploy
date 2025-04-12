@@ -78,9 +78,7 @@ public class SecurityConfig {
                     + "style-src 'self' https://cdn.jsdelivr.net https://fonts.googleapis.com; " // スタイル: 自己 + CDN + Google Fonts (unsafe-inline 削除)
                     + "img-src 'self' data: https://www.google.com https://www.gstatic.com; " // 画像: 自己 + data スキーム + Google関連
                     + "font-src 'self' https://cdn.jsdelivr.net https://fonts.gstatic.com data:; " // フォント: 自己 + CDN + Google Fonts + data スキーム
-                    + "frame-src 'self' https://www.google.com https://recaptcha.google.com; " // フレーム: 自己 + Google関連 (reCAPTCHA)
-                    + "connect-src 'self'; " // 接続先(Ajax等): 自己のみ
-                    + "base-uri 'self';";                          // baseタグのオリジン: 自己のみ
+                    + "frame-src 'self' https://www.google.com https://recaptcha.google.com; "; // フレーム: 自己 + Google関連 (reCAPTCHA)
         }
 
         // --- HttpSecurity によるセキュリティ設定の構成 ---
