@@ -41,20 +41,5 @@
     <!-- メインのJavaScriptファイル -->
     <script src="<c:url value='/js/main.js'/>"></script>
     
-    <!-- Google アナリティクス -->
-    <c:if test="${not empty googleAnalyticsId}">
-    <script async src="https://www.googletagmanager.com/gtag/js?id=${googleAnalyticsId}"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', '${googleAnalyticsId}');
-    </script>
-    </c:if>
-    
-    <!-- 追加のスクリプト(現在は実装なし) -->
-    <c:if test="${not empty additionalScripts}">
-        ${additionalScripts}
-    </c:if>
 </body>
 </html>

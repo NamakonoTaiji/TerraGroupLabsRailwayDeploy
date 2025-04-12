@@ -862,7 +862,7 @@ textarea:focus {
    9. メディアクエリ (レスポンシブ調整)
    ========================================================================== */
 /* 中サイズデバイス (タブレットなど) */
-@media (max-width: 768px) {
+@media (max-width: 767px) {
     .section {
         padding-top: var(--spacing-16);
         padding-bottom: var(--spacing-16);
@@ -912,6 +912,17 @@ textarea:focus {
         left: 30px;
         transform: translateX(-50%);
         /* 位置調整 */
+    }
+
+    .hero-section {
+        /* モバイル用の背景画像に上書き */
+        background-image:
+            linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
+            image-set(url('../images/webp/hero-bg-mobile.webp') 1x type('image/webp'),
+                /* 必要ならモバイル用JPGフォールバックも指定 */
+                url('../images/jpg/hero-bg-mobile.jpg') 1x type('image/jpeg'));
+        /* 例: モバイルでは高さを少し抑える (既存のCSSより) */
+        min-height: 400px;
     }
 }
 
