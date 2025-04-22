@@ -71,7 +71,7 @@ public class HomeController {
         // 現在のページ識別子をモデルに追加 (ナビゲーションのアクティブ表示用など)
         model.addAttribute("currentPage", "home");
         // HTML の <title> タグなどに使うページタイトルをモデルに追加
-        model.addAttribute("pageTitle", "地球の未来をテクノロジーで創造する");
+        model.addAttribute("pageTitle", "地球の未来をテクノロジーで創造する - TerraGroupLabs");
 
         // 対応するビューの名前 ("index") を返す。
         // MvcConfig の設定により、 "/WEB-INF/views/index.jsp" が解決される。
@@ -87,7 +87,7 @@ public class HomeController {
     @GetMapping("/about")
     public String showAboutPage(@NonNull Model model) {
         // ページタイトルと識別子をモデルに追加
-        model.addAttribute("pageTitle", "TerraGroup Labs について");
+        model.addAttribute("pageTitle", "会社概要 - TerraGroupLabs");
         model.addAttribute("currentPage", "about");
         // 対応するビューの名前 ("about") を返す -> "/WEB-INF/views/about.jsp"
         return "about";
@@ -104,7 +104,7 @@ public class HomeController {
         // 全サービス情報を取得してモデルに追加
         model.addAttribute("services", serviceService.getAllServices());
         // ページタイトルと識別子をモデルに追加
-        model.addAttribute("pageTitle", "サービス");
+        model.addAttribute("pageTitle", "サービス - TerraGroupLabs");
         model.addAttribute("currentPage", "service");
         // 対応するビューの名前 ("service") を返す -> "/WEB-INF/views/service.jsp"
         return "service";

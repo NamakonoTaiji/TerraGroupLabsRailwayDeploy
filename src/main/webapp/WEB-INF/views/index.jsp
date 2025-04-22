@@ -2,7 +2,6 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
 
-<c:set var="currentPage" value="home" />
 <c:set var="additionalHeadContent">
 </c:set>
 
@@ -14,8 +13,7 @@
         <div class="container text-center">
             <h1 class="display-title mb-mb-d mb-3 animate-fade-in">地球の未来をテクノロジーで創造する</h1>
             <p class="lead mb-md-5 mb-4 animate-fade-in-delayed">持続可能な社会の実現に向けた革新的な技術開発</p>
-            <a href="#services"
-                class="btn btn-lg terra-btn-primary animate-fade-in-delayed-more">詳細はこちら
+            <a href="#services" class="btn btn-lg terra-btn-primary animate-fade-in-delayed-more">詳細はこちら
                 <i class="bi bi-arrow-right ms-2"></i>
             </a>
         </div>
@@ -167,11 +165,11 @@
                             loading="lazy"> </picture>
                         <div class="card-body">
                             <div class="d-flex align-items-center mb-2">
-                                <span class="badge bg-primary-light text-primary me-2">防衛部門</span>
+                                <span class="badge bg-primary-light text-primary me-2">宇宙開発部門</span>
                                 <small class="text-muted">2024.12.05</small>
                             </div>
-                            <h4 class="card-title">TG-Sentinelシステムがミサイルの飽和攻撃に対し高い迎撃率を記録</h4>
-                            <p class="card-text">無人戦闘システムTG-Sentinelが飽和攻撃に対する高い抗堪性を示した。コストと信頼性を両立させた、ミサイルに代わる新しい防衛システム。</p>
+                            <h4 class="card-title">火星探査ロケットの姿勢制御システムを担当</h4>
+                            <p class="card-text">人類の火星移住という壮大な目標に向け、TerraGroup Labs は新型ロケット用姿勢制御システム「Ares Navigator」を発表。</p>
                             <a href="#" class="btn btn-link p-0">詳細を読む <i
                                 class="bi bi-arrow-right"></i></a>
                         </div>

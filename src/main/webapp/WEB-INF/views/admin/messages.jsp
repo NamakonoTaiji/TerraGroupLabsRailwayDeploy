@@ -33,7 +33,8 @@
                                     <c:if test="${fn:length(msg.message) > 30}">...</c:if>
                                 </td>
                                 <td>
-                                    <a href="${pageContext.request.contextPath}/admin/messages/${msg.id}" class="btn btn-sm btn-primary">
+                                <c:url var="detailUrl" value="/admin/messages/${msg.id}"/>
+                                    <a href="${detailUrl}" class="btn btn-sm btn-primary">
                                         <i class="bi bi-eye"></i> 詳細
                                     </a>
                                 </td>

@@ -1,9 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
 
-<c:set var="pageTitle" value="サービス - TerraGroup Labs" />
-<c:set var="currentPage" value="service" />
-
 <jsp:include page="/WEB-INF/views/fragments/header.jsp" />
 <div class="main-content-wrapper">
 
@@ -28,8 +25,8 @@
                         </div>
                     </div>
                     <div class="col-md-6">
-                        <h2>${service.title}</h2>
-                        <p class="lead">${service.description}</p>
+                        <h2><c:out value = "${service.title}"/></h2>
+                        <p class="lead"><c:out value = "${service.description}"/></p>
                         <h4 class="mt-4">主な特徴</h4>
                         <ul>
                             <li>革新的なアプローチ</li>

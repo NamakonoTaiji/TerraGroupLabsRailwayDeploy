@@ -23,7 +23,7 @@ public class LoginController {
      */
     @GetMapping("/login")
     public String login(@NonNull Model model) {
-        model.addAttribute("pageTitle", "ログイン");
+        model.addAttribute("pageTitle", "ログイン - TerraGroupLabs");
         model.addAttribute("currentPage", "login");
         return "login";
     }

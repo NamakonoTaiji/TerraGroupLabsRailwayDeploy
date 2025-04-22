@@ -120,7 +120,7 @@ public class ContactController {
         // 3. 検証成功：確認画面へ
         logger.debug("Validation and reCAPTCHA successful. Proceeding to confirmation view.");
 
-        model.addAttribute("pageTitle", "お問い合わせ内容のご確認");
+        model.addAttribute("pageTitle", "お問い合わせ内容のご確認 - TerraGroupLabs");
         model.addAttribute("currentPage", "contact"); // お問い合わせ関連ページとして
         // "contactMessage" は @SessionAttributes によりセッションに保持されているので、そのまま確認画面のビュー名を返すだけで良い。
         return "confirm"; // -> /WEB-INF/views/confirm.jsp
@@ -211,7 +211,7 @@ public class ContactController {
     @GetMapping("/thankyou")
     public String showThankYouPage(@NonNull Model model) {
         logger.debug("Displaying thank you page.");
-        model.addAttribute("pageTitle", "お問い合わせありがとうございました");
+        model.addAttribute("pageTitle", "お問い合わせありがとうございました - TerraGroupLabs");
         model.addAttribute("currentPage", "contact"); // contact 関連ページとして
         return "thankyou"; // -> /WEB-INF/views/thankyou.jsp
     }
