@@ -6,7 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>${pageTitle}-TerraGroupLabs</title>
+<title><c:out value="${pageTitle}"/></title>
 
 <!-- ファビコン設定を追加 -->
 <link rel="icon" type="image/x-icon"
@@ -51,14 +51,14 @@
 
 <!-- SEO メタタグ -->
 <meta name="description"
-	content="${pageDescription != null ? pageDescription : 'TerraGroup Labs - 持続可能な社会の実現に向けた革新的な技術開発企業です。環境技術や最先端バイオテクノロジーの研究開発を行っています。'}">
+	content="<c:out value = "${pageDescription != null ? pageDescription : 'TerraGroup Labs - 持続可能な社会の実現に向けた革新的な技術開発企業です。環境技術や最先端バイオテクノロジーの研究開発を行っています。'}"/>">
 <meta name="keywords"
 	content="TerraGroup Labs, 環境技術, 研究開発, バイオテクノロジー, 持続可能, クリーンエネルギー, 先端技術, 環境ソリューション">
 <meta name="author" content="TerraGroup Labs">
 <meta name="robots" content="index, follow">
 
 <!-- OGP タグ -->
-<meta property="og:title" content="${pageTitle} - TerraGroup Labs">
+<meta property="og:title" content="<c:out value = "${pageTitle} - TerraGroup Labs"/>">
 <meta property="og:description"
 	content="${pageDescription != null ? pageDescription : 'TerraGroup Labs - 持続可能な社会の実現に向けた革新的な技術開発企業です。'}">
 <meta property="og:type" content="website">

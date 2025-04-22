@@ -1,9 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
 
-<c:set var="pageTitle" value="お問い合わせありがとうございました - TerraGroup Labs" />
-<c:set var="currentPage" value="thankyou" />
-
 <jsp:include page="/WEB-INF/views/fragments/header.jsp" />
 <div class="main-content-wrapper">
 
