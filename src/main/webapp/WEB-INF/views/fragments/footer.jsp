@@ -8,7 +8,7 @@
                 <div class="col-md-4 mb-4 mb-md-0 text-md-start">
                     <h5>TerraGroup Labs</h5>
                     <p class="small mb-0">持続可能な社会の実現に向けた革新的な技術開発</p>
-                    <p class="small mb-0">東京都港区虎ノ門1-2-3 テラグループビル</p>
+                    <p class="small mb-0">TerraGroup HQ, Tarkov City, Norvinsk Special Economic Zone</p>
                 </div>
                 <div class="col-md-4 mb-4 mb-md-0">
                     <h5>リンク</h5>
