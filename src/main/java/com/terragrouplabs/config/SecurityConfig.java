@@ -91,7 +91,7 @@ public class SecurityConfig {
                 .requestMatchers(
                         "/", "/index", "/about", "/service", // 主要ページ
                         "/contact/**", "/thankyou", // お問い合わせ関連
-                        "/css/**", "/js/**", "/images/**", // 静的リソース
+                        "/css/**", "/js/**", "/images/**", "/videos/**", // 静的リソース
                         "/login", "/error", "/favicon.ico" // ログイン、エラー、ファビコン
                 ).permitAll()
                 // "/admin/" 以下は ADMIN ロールを持つユーザーのみ許可
@@ -152,6 +152,7 @@ public class SecurityConfig {
      * @return UserDetailsService の実装インスタンス
      */
     @Bean
+
     public UserDetailsService userDetailsService(PasswordEncoder passwordEncoder) {
         // 管理者ユーザー情報を構築
         UserDetails adminUser = User

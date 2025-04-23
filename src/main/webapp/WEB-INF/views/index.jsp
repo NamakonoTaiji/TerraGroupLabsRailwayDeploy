@@ -10,10 +10,24 @@
     
     <!-- ヒーローセクション -->
     <header class="hero-section">
-        <div class="container text-center">
+        <%-- 動画背景 --%>
+        <video autoplay loop muted playsinline preload="auto" class="hero-video-bg">
+            <%-- 動画ファイルのパスを指定 (例: static/videos/pv.mp4) --%>
+            <source src="<c:url value='/videos/TerraGroupPV.mp4'/>" type="video/mp4">
+            <%-- 必要に応じて他のフォーマットも追加 (例: WebM) --%>
+            <%-- <source src="<c:url value='/videos/pv.webm'/>" type="video/webm"> --%>
+            お使いのブラウザは動画タグをサポートしていません。 <%-- フォールバックテキスト --%>
+        </video>
+
+        <%-- 半透明オーバーレイ (テキスト可読性のため) --%>
+        <div class="hero-overlay"></div>
+
+        <%-- コンテンツ (動画とオーバーレイの上に表示) --%>
+        <div class="container text-center hero-content"> <%-- クラス名 hero-content 追加 --%>
             <h1 class="display-title mb-mb-d mb-3 animate-fade-in">地球の未来をテクノロジーで創造する</h1>
             <p class="lead mb-md-5 mb-4 animate-fade-in-delayed">持続可能な社会の実現に向けた革新的な技術開発</p>
-            <a href="#services" class="btn btn-lg terra-btn-primary animate-fade-in-delayed-more">詳細はこちら
+            <a href="#services"
+                class="btn btn-lg terra-btn-primary animate-fade-in-delayed-more">詳細はこちら
                 <i class="bi bi-arrow-right ms-2"></i>
             </a>
         </div>

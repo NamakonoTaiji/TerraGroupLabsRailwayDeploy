@@ -509,23 +509,69 @@ pre {
 
 /* 5.6 ヒーローセクション */
 .hero-section {
-    /* background は image-set を優先 (よりモダンな書き方) */
-    background-image:
-        linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
-        image-set(url('../images/webp/hero-bg.webp') 1x type('image/webp'),
-            /* WebP */
-            url('../images/hero-bg.jpg') 1x type('image/jpeg')
-            /* JPG フォールバック */
-        );
-    background-size: cover;
-    background-position: center;
+    position: relative;
+    /* 子要素の絶対配置の基準とする */
     height: 100vh;
     min-height: 500px;
     color: var(--white);
     display: flex;
     align-items: center;
     justify-content: center;
+    overflow: hidden;
+    /* コンテナからはみ出す動画部分を隠す */
+}
+
+/* ヒーローセクションの動画背景スタイル */
+.hero-video-bg {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     /* 中央揃え */
+    min-width: 100%;
+    /* コンテナの幅を常にカバー */
+    min-height: 100%;
+    /* コンテナの高さを常にカバー */
+    width: auto;
+    /* アスペクト比を保つ */
+    height: auto;
+    /* アスペクト比を保つ */
+    z-index: 1;
+    /* 背面に配置 */
+    object-fit: cover;
+    /* コンテナ全体を覆うように調整（必要ならトリミング） */
+}
+
+/* ヒーローセクションの半透明オーバーレイ */
+.hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6));
+    /* 既存のグラデーション */
+    z-index: 2;
+    /* 動画の上、コンテンツの下 */
+}
+
+/* ヒーローセクションのコンテンツ */
+.hero-content {
+    position: relative;
+    /* z-index を有効にするため */
+    z-index: 3;
+    /* 最前面に配置 */
+}
+
+/* モバイルでの調整 (必要に応じて) */
+@media (max-width: 767px) {
+    .hero-section {
+        /* モバイルでは高さを少し変えるなど */
+        min-height: 400px;
+    }
+
+    /* アスペクト比が大きく異なる場合、モバイル専用の動画を用意するか、
+     object-position で動画の表示位置を調整することも検討 */
 }
 
 /* .bg-hero は .hero-section と重複？ 不要なら削除 */
