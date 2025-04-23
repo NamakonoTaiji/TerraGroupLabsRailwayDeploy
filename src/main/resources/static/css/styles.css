@@ -574,6 +574,67 @@ pre {
      object-position で動画の表示位置を調整することも検討 */
 }
 
+/* styles.css に追記 */
+@media (max-width: 991px) {
+
+    /* lg ブレークポイント (992px) 未満に適用 */
+    .tech-vision-background+.container .row>div[class*="col-lg-"] {
+        width: 100%;
+        /* 幅を100%にする */
+        padding-left: 1rem;
+        /* 左右に適切なパディング */
+        padding-right: 1rem;
+        text-align: center;
+        /* テキストを中央揃え */
+    }
+
+    .tech-vision-background+.container .d-flex {
+        justify-content: center;
+        /* アイコン+テキストのブロックも中央に */
+        text-align: left;
+        /* アイコン横のテキストは左揃えのまま */
+    }
+
+    .tech-vision-background+.container .d-flex .icon-box {
+        margin-right: 0.75rem !important;
+        /* アイコンとテキストの間隔調整 */
+        margin-left: auto;
+        /* 中央揃えのため */
+        margin-right: auto;
+        /* 中央揃えのため */
+        margin-bottom: 0.5rem;
+        /* アイコン下に少し余白 */
+        display: block;
+        /* アイコン単独で中央にする場合 */
+
+    }
+
+    .tech-vision-background+.container .d-flex>div:last-child {
+        width: 100%;
+        /* テキスト部分の幅 */
+    }
+
+    /* 背景画像をより暗くしてテキストを読みやすくする */
+    .tech-vision-background {
+        background-image: linear-gradient(rgba(0, 30, 55, 0.9), rgba(0, 30, 55, 0.95)),
+            /* さらに暗く */
+            url('/images/webp/tech-vision-bg.webp');
+    }
+}
+
+/* さらに小さい画面用の調整 (任意) */
+@media (max-width: 576px) {
+    .tech-vision-background+.container h2 {
+        font-size: 1.75rem;
+        /* 見出しサイズ調整 */
+    }
+
+    .tech-vision-background+.container .lead {
+        font-size: 1rem;
+        /* リード文サイズ調整 */
+    }
+}
+
 /* .bg-hero は .hero-section と重複？ 不要なら削除 */
 /* .bg-hero { ... } */
 

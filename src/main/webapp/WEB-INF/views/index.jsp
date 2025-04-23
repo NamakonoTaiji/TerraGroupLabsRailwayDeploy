@@ -43,28 +43,28 @@
             </div>
     
             <div class="row g-4 text-center">
-                <div class="col-md-3 col-6">
+                <div class="col-12 col-sm-6 col-md-3 mb-4">
                     <div class="p-4 bg-white rounded-lg shadow-sm h-100">
                         <div class="display-4 text-primary mb-2">35+</div>
                         <p class="fw-bold mb-1">研究プロジェクト</p>
                         <p class="text-muted small">進行中の革新的な取り組み</p>
                     </div>
                 </div>
-                <div class="col-md-3 col-6">
+                <div class="col-12 col-sm-6 col-md-3 mb-4">
                     <div class="p-4 bg-white rounded-lg shadow-sm h-100">
                         <div class="display-4 text-primary mb-2">120</div>
                         <p class="fw-bold mb-1">専門研究員</p>
                         <p class="text-muted small">世界トップクラスの科学者集団</p>
                     </div>
                 </div>
-                <div class="col-md-3 col-6">
+                <div class="col-12 col-sm-6 col-md-3 mb-4">
                     <div class="p-4 bg-white rounded-lg shadow-sm h-100">
                         <div class="display-4 text-primary mb-2">48</div>
                         <p class="fw-bold mb-1">特許取得</p>
                         <p class="text-muted small">革新的な技術ソリューション</p>
                     </div>
                 </div>
-                <div class="col-md-3 col-6">
+                <div class="col-12 col-sm-6 col-md-3 mb-4">
                     <div class="p-4 bg-white rounded-lg shadow-sm h-100">
                         <div class="display-4 text-primary mb-2">18</div>
                         <p class="fw-bold mb-1">国際パートナー</p>
