@@ -5,7 +5,7 @@
 <div class="main-content-wrapper">
 
     <!-- ヘッダー -->
-    <header class="page-header py-5 mt-5 bg-light">
+    <header class="page-header page-header-custom-bg service-header-bg py-5 mt-5">
         <div class="container">
             <h1>会社概要</h1>
             <p class="lead">TerraGroup
@@ -38,7 +38,7 @@
                     <table class="table">
                         <tr>
                             <th>社名</th>
-                            <td>TerraGroup Labs株式会社</td>
+                            <td>TerraGroup Labs</td>
                         </tr>
                         <tr>
                             <th>設立</th>
@@ -54,7 +54,7 @@
                         </tr>
                         <tr>
                             <th>所在地</th>
-                            <td>東京都港区虎ノ門1-2-3 テラグループビル</td>
+                            <td>TerraGroup HQ, Tarkov City, Norvinsk Special Economic Zone</td>
                         </tr>
                         <tr>
                             <th>事業内容</th>
@@ -77,7 +77,7 @@
                             <div class="timeline-year">2020年</div>
                             <div class="timeline-content">
                                 <h4>会社設立</h4>
-                                <p>環境技術の研究開発を目的としてTerraGroup Labs株式会社を東京都港区に設立</p>
+                                <p>環境技術、宇宙開発の研究を目的としてTerraGroup Labs株式会社をノルヴィンスク州の経済特区であるタルコフ市に設立</p>
                             </div>
                         </div>
                     </div>

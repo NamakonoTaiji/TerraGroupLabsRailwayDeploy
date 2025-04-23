@@ -5,7 +5,7 @@
 <div class="main-content-wrapper">
 
     <!-- ヘッダー -->
-    <header class="page-header py-5 mt-5 bg-light">
+    <header class="page-header page-header-custom-bg about-header-bg py-5 mt-5">
         <div class="container">
             <h1>サービス</h1>
             <p class="lead">TerraGroup Labsが提供する革新的なサービスと技術ソリューション</p>
