@@ -92,7 +92,8 @@ public class SecurityConfig {
                         "/", "/index", "/about", "/service", // 主要ページ
                         "/contact/**", "/thankyou", // お問い合わせ関連
                         "/css/**", "/js/**", "/images/**", "/videos/**", // 静的リソース
-                        "/login", "/error", "/favicon.ico" // ログイン、エラー、ファビコン
+                        "/login", "/error", "/favicon.ico", // ログイン、エラー、ファビコン
+                        "/robots.txt", "/sitemap.xml" // SEO最適化
                 ).permitAll()
                 // "/admin/" 以下は ADMIN ロールを持つユーザーのみ許可
                 .requestMatchers("/admin/**").hasRole("ADMIN")
