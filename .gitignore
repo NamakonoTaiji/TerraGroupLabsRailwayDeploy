@@ -41,4 +41,3 @@ src/main/resources/application-env.properties
 application-env.properties
 application-dev.properties
 # 不要なファイル
-appealpoint.txt
