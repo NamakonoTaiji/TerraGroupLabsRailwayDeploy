@@ -364,8 +364,8 @@
 
 <%-- スクリプトで利用するデータを格納する要素 (画面には表示されない) --%>
 <div id="page-initial-data"
-     data-has-form-errors="${not empty org.springframework.validation.BindingResult.contactMessage}"
-     style="display: none;">
+    data-has-form-errors="${not empty org.springframework.validation.BindingResult.contactMessage}"
+    class="d-none">
 </div>
 
 <jsp:include page="/WEB-INF/views/fragments/footer.jsp" />
