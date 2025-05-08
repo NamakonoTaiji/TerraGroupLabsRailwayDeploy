@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.GetMapping; // HTTP GETリクエ�
 import org.springframework.web.bind.annotation.PathVariable; // URLパスの一部を引数として受け取る
 import org.springframework.web.bind.annotation.RequestMapping; // クラスレベルでのURLパスのマッピング
 
+import com.terragrouplabs.entity.ContactMessage;
+import com.terragrouplabs.exception.ResourceNotFoundException;
 import com.terragrouplabs.repository.ContactMessageRepository; // お問い合わせメッセージのリポジトリ
 
 /**
@@ -67,16 +69,14 @@ public class AdminController {
      * @param model ビューに渡すデータを格納する Model オブジェクト
      * @return 表示するビュー名 ("admin/message-detail")
      */
-    @GetMapping("/messages/{id}") // 例: /admin/messages/123
+// AdminController.java の viewMessage メソッド修正案
+    @GetMapping("/messages/{id}")
     public String viewMessage(@PathVariable("id") Long id, @NonNull Model model) {
-        // @PathVariable("id") で URL の {id} 部分の値を受け取る
-        // contactRepository を使ってIDでメッセージを検索
-        // findById は Optional を返すため、orElse(null) で見つからない場合は null をセット
-        model.addAttribute("message", contactRepository.findById(id).orElse(null));
-        // ページ識別子とタイトルをモデルに追加
+        ContactMessage message = contactRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("お問い合わせメッセージが見つかりません (ID: " + id + ")")); // 見つからない場合に例外をスロー
+        model.addAttribute("message", message);
         model.addAttribute("currentPage", "adminMessageDetail");
         model.addAttribute("pageTitle", "お問い合わせ詳細");
-        // 対応するビューの名前 -> /WEB-INF/views/admin/message-detail.jsp
         return "admin/message-detail";
     }
 }
