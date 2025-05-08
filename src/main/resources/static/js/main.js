@@ -5,6 +5,14 @@ console.log("main.js loaded");
 window.addEventListener("DOMContentLoaded", function () {
   console.log("DOM fully loaded");
 
+  let hasFormErrors = false;
+  const pageDataElement = document.getElementById("page-initial-data");
+
+  if (pageDataElement && pageDataElement.dataset.hasFormErrors === "true") {
+    hasFormErrors = true;
+  }
+  console.log("main.js - hasFormErrors from data attribute:", hasFormErrors);
+
   // 画像の遅延読み込みフォールバックを初期化
   initLazyLoading();
 

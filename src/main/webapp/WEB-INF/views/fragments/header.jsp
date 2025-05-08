@@ -48,7 +48,9 @@
 <link rel="preload"
 	href="<c:url value='/images/webp/hero-bg-mobile.webp'/>" as="image" type="image/webp"
 	media="(max-width: 767px)">
-
+<!-- 背景動画のプリロード-->
+<link rel="preload"
+	href="<c:url value='/videos/TerraGroupPV.mp4'/>" as="video" type="video/mp4">
 <!-- SEO メタタグ -->
 <meta name="description"
 	content="<c:out value = "${pageDescription != null ? pageDescription : 'TerraGroup Labs - 持続可能な社会の実現に向けた革新的な技術開発企業です。環境技術や最先端バイオテクノロジーの研究開発を行っています。'}"/>">
